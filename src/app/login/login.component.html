@@ -1,0 +1,76 @@
+<div class="container">
+  <form class="form-horizontal" (ngSubmit)="onSubmit(f)" #f="ngForm" role="form">
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="col-md-6">
+        <h2>Login to Hangman</h2>
+        <hr>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="col-md-6">
+        <div class="form-group has-danger">
+          <label class="sr-only">Studynumber</label>
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
+            <input type="text"
+                   ngModel name="studynumber"
+                   class="form-control" id="studynumber"
+                   placeholder="Studynumber" required autofocus #studynumber="ngModel">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-control-feedback">
+                        <span class="help-block" *ngIf="!studynumber.valid">
+                            <i class="fa fa-close"></i> Please input your study number
+                        </span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="sr-only" for="password">Password</label>
+          <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+            <input type="password"
+                   ngModel name="password"
+                   class="form-control" id="password"
+                   autocomplete="on"
+                   placeholder="Password" required #password="ngModel" >
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-control-feedback">
+                        <span class="help-block" *ngIf="!password.valid && password.touched">
+                        Please input a password
+                        </span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="col-md-6" style="padding-top: .35rem">
+        <div class="form-check mb-2 mr-sm-2 mb-sm-0">
+          <label class="form-check-label">
+            <input class="form-check-input" name="remember"
+                   type="checkbox" >
+            <span style="padding-bottom: .15rem">Remember me</span>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="padding-top: 1rem">
+      <div class="col-md-3"></div>
+      <div class="col-md-6">
+        <button type="submit" class="btn btn-success" [disabled]="!f.valid && f.touched">
+          <i class="fa fa-sign-in"></i>Login</button>
+      </div>
+    </div>
+  </form>
+</div>
+

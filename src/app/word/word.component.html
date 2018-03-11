@@ -1,0 +1,23 @@
+<div class="container-fluid">
+  <div>
+    <img src={{images[imageIndex]}} />
+  </div>
+  <hr>
+  <div class="secretWord">
+    {{word}}
+  </div>
+
+  <div><p class="alert"> {{gameStatus}}</p></div>
+
+  <div class="letterButtons">
+    <ul class="list-inline">
+      <li></li>
+      <li class="list-inline-item"(click)="onLetterClick(bLetter)" *ngFor="let bLetter of buttonLetters; let index = i">
+        <button class="btn btn-primary letter-button"  >
+          {{bLetter}}</button>
+      </li>
+    </ul>
+  </div>
+
+
+</div>

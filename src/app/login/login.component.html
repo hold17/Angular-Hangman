@@ -1,5 +1,5 @@
 <div class="container">
-  <form class="form-horizontal" (ngSubmit)="onSubmit(f)" #f="ngForm" role="form" >
+  <form class="form-horizontal" (ngSubmit)="onSubmit()" #f="ngForm" role="form" >
     <div class="row">
       <div class="col-md-3"></div>
       <div class="col-md-6">
@@ -11,19 +11,20 @@
       <div class="col-md-3"></div>
       <div class="col-md-6">
         <div class="form-group has-danger">
-          <label class="sr-only">Studynumber</label>
+          <label class="sr-only">username</label>
           <div class="input-group mb-2 mr-sm-2 mb-sm-0">
             <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
             <input type="text"
-                   ngModel name="studynumber"
-                   class="form-control" id="studynumber"
-                   placeholder="Studynumber" required autofocus #studynumber="ngModel">
+                   ngModel
+                   name="username"
+                   class="form-control" id="username"
+                   placeholder="username" required autofocus #username="ngModel">
           </div>
         </div>
       </div>
       <div class="col-md-3">
         <div class="form-control-feedback">
-                        <span class="help-block" *ngIf="!studynumber.valid">
+                        <span class="help-block" *ngIf="!username.valid">
                             <i class="fa fa-close"></i> Please input your study number
                         </span>
         </div>
@@ -72,5 +73,11 @@
       </div>
     </div>
   </form>
+  <div class="row" *ngIf="submitted">
+    <div class="col-xs-12">
+      <p>Username: {{user.username}}</p>
+      <p>Password: {{user.password}}</p>
+    </div>
+  </div>
 </div>
 

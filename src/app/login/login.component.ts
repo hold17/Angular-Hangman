@@ -11,9 +11,12 @@ import {ServerService} from '../../server.service';
 })
 export class LoginComponent implements OnInit {
   @ViewChild('f') signupForm: NgForm;
+  submitted = false;
   passWordError: false;
-  username: string;
-  password: string;
+  user = {
+    username: '',
+    password: ''
+  };
 
 
   anyError: false;
@@ -21,10 +24,6 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router, private server: ServerService) { }
 
   ngOnInit() {
-    this.signupForm = new FormGroup({
-      username: new FormControl(),
-      password: new FormControl()
-    });
   }
 
   // onSubmit(form: NgForm) {
@@ -32,13 +31,15 @@ export class LoginComponent implements OnInit {
   //   console.log(form);
   //
   // }
-  onSubmit(form: NgForm) {
-    console.log(form.valid);
-    console.log(this.username);
-    console.log(this.password);
+  onSubmit() {
+    this.submitted = true;
+    this.user.username = this.signupForm.value.username;
+    this.user.password = this.signupForm.value.password;
+    console.log(this.user.username);
+    console.log(this.user.password);
 
     // console.log(this.signupForm);
-    this.authService.login(this.username, this.password).subscribe(
+    this.authService.login(this.user.username, this.user.password).subscribe(
       (response) => console.log(response),
       (error) => console.log(error)
     );

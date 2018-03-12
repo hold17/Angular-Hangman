@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {NgForm} from '@angular/forms';
+import {FormControl, FormGroup, NgForm} from '@angular/forms';
 import {AuthService} from '../../auth.service';
 import {Router} from '@angular/router';
 import {ServerService} from '../../server.service';
@@ -12,6 +12,8 @@ import {ServerService} from '../../server.service';
 export class LoginComponent implements OnInit {
   @ViewChild('f') signupForm: NgForm;
   passWordError: false;
+  username: string;
+  password: string;
 
 
   anyError: false;
@@ -19,6 +21,10 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router, private server: ServerService) { }
 
   ngOnInit() {
+    this.signupForm = new FormGroup({
+      username: new FormControl(),
+      password: new FormControl()
+    });
   }
 
   // onSubmit(form: NgForm) {
@@ -26,9 +32,18 @@ export class LoginComponent implements OnInit {
   //   console.log(form);
   //
   // }
-  onSubmit() {
-    console.log(this.signupForm);
-    this.authService.login();
-    this.router.navigate(['/game']);
+  onSubmit(form: NgForm) {
+    console.log(form.valid);
+    console.log(this.username);
+    console.log(this.password);
+
+    // console.log(this.signupForm);
+    this.authService.login(this.username, this.password).subscribe(
+      (response) => console.log(response),
+      (error) => console.log(error)
+    );
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate(['/game']);
+    }
   }
 }

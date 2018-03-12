@@ -1,5 +1,5 @@
 import {Injectable, OnInit} from '@angular/core';
-import {HttpClient, HttpClientModule, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 
 interface UserResponse {
   studynumber: string;
@@ -12,7 +12,6 @@ export class ServerService implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-
     this.http.get('https://localghost.dk/')
       .subscribe(data => {
           console.log(data);

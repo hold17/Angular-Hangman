@@ -12,8 +12,9 @@
   <div class="letterButtons">
     <ul class="list-inline">
       <li></li>
-      <li class="list-inline-item"(click)="onLetterClick(bLetter)" *ngFor="let bLetter of buttonLetters; let index = i">
-        <button class="btn btn-primary letter-button"  >
+      <li class="list-inline-item" *ngFor="let bLetter of buttonLetters; let i = index" (click)="onLetterClick(i); buttonEnabled = !buttonEnabled">
+        <button class="btn btn-primary letter-button"
+          *ngIf="!bLetter[i]">
           {{bLetter}}</button>
       </li>
     </ul>

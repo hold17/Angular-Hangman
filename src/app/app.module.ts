@@ -4,11 +4,12 @@ import {AppComponent} from './app.component';
 import {WordComponent} from './word/word.component';
 import {LoginComponent} from './login/login.component';
 import {FormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {AppRoutingModule} from '../app-routing.module';
 import {AuthguardService} from '../authguard.service';
 import {AuthService} from '../auth.service';
 import {HighscoreComponent} from './highscore/highscore.component';
+import {ServerService} from '../server.service';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import {HighscoreComponent} from './highscore/highscore.component';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [AuthguardService, AuthService],
+  providers: [AuthguardService, AuthService, ServerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

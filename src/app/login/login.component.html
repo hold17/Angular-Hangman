@@ -56,12 +56,8 @@
     <div class="row">
       <div class="col-md-3"></div>
       <div class="col-md-6" style="padding-top: .35rem">
-        <div class="form-check mb-2 mr-sm-2 mb-sm-0">
-          <label class="form-check-label">
-            <input class="form-check-input" name="remember"
-                   type="checkbox" >
-            <span style="padding-bottom: .15rem">Remember me</span>
-          </label>
+        <div class="alert alert-danger" role="alert" *ngIf="inputError">
+          <strong>{{httpMessage.bold}}</strong> {{httpMessage.text}}
         </div>
       </div>
     </div>
@@ -73,11 +69,5 @@
       </div>
     </div>
   </form>
-  <div class="row" *ngIf="submitted">
-    <div class="col-xs-12">
-      <p>Username: {{user.username}}</p>
-      <p>Password: {{user.password}}</p>
-    </div>
-  </div>
 </div>
 

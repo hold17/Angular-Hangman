@@ -1,3 +1,4 @@
+<br>
 <div class="container-fluid">
   <div>
     <img src={{images[imageIndex]}} />
@@ -6,19 +7,14 @@
   <div class="secretWord">
     {{hiddenWord}}
   </div>
-
-  <div><p class="alert"> {{gameStatus}}</p></div>
-
-  <div class="letterButtons">
-    <ul class="list-inline">
-      <li></li>
-      <li class="list-inline-item" *ngFor="let bLetter of buttonLetters; let i = index" (click)="onLetterClick(i); buttonEnabled = !buttonEnabled">
-        <button class="btn btn-primary letter-button"
-          *ngIf="!bLetter[i]">
-          {{bLetter}}</button>
-      </li>
-    </ul>
+  <div><p class="alert"> {{gameStatus}}</p>
+    <div class="letterButtons">
+      <ul class="list-inline">
+        <li class="list-inline-item" *ngFor="let bLetter of buttonLetters; let i = index" (click)="onLetterClick(i); buttonEnabled = !buttonEnabled">
+          <button class="btn btn-primary letter-button">
+            {{bLetter}}</button>
+        </li>
+      </ul>
+    </div>
   </div>
-
-
 </div>

@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {HtmlParser} from '@angular/compiler';
 
 @Component({
   selector: 'app-word',
@@ -22,8 +21,6 @@ export class WordComponent implements OnInit {
   letter: string;
   imageIndex = 0;
   buttonEnabled: true;
-
-  constructor() {  }
   ngOnInit() {
     this.buttonLetters = this.letters;
     this.word = 'default';

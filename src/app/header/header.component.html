@@ -1,0 +1,17 @@
+<div class="card-header">
+  <h1>Hangman</h1>
+  <p>Developed for course 62596 DTU Diplom</p>
+  <div *ngIf="loggedIn">
+    <button class="btn btn-primary" data-target=".bs-example-modal-sm" data-toggle="modal">Logout</button>
+
+    <div tabindex="-1" class="modal bs-example-modal-sm" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header"><h4>Logout <i class="fa fa-lock"></i></h4></div>
+          <div class="modal-body"><i class="fa fa-question-circle"></i> Are you sure you want to log-off?</div>
+          <div class="modal-footer"><a class="btn btn-primary btn-block" onclick="">Logout</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

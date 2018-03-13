@@ -11,16 +11,12 @@ export class AuthService {
   isAuthenticated() {
     const promise = new Promise(
       (resolve, reject) => {
-        setTimeout(() => {
-          resolve(this.loggedIn);
-        });
-      }
-    );
+        resolve(localStorage.getItem('token') != null);
+        reject(localStorage.getItem('token') == null);
+      });
     return promise;
   }
   login(username, password): Observable <any> {
-    console.log(password);
-    console.log(username);
     const body = new HttpParams()
       .set('username', username)
       .set('password', password);
@@ -30,10 +26,11 @@ export class AuthService {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
       }
-    ).map((response: Response) => {
-      const token = response.json();
+    ).map((promise: Promise<JSON>) => {
+      const token = promise;
       console.log(token);
-      this.loggedIn = true;
+      localStorage.setItem('token', JSON.stringify(token));
+
     });
   }
   logout() {

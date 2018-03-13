@@ -1,8 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FormControl, FormGroup, NgForm} from '@angular/forms';
+import {NgForm} from '@angular/forms';
 import {AuthService} from '../../auth.service';
 import {Router} from '@angular/router';
 import {ServerService} from '../../server.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -12,25 +13,25 @@ import {ServerService} from '../../server.service';
 export class LoginComponent implements OnInit {
   @ViewChild('f') signupForm: NgForm;
   submitted = false;
-  passWordError: false;
+  inputError: boolean;
   user = {
     username: '',
     password: ''
   };
-
-
-  anyError: false;
+  httpMessage = {
+    bold: '',
+    text: ''
+  };
 
   constructor(private authService: AuthService, private router: Router, private server: ServerService) { }
 
   ngOnInit() {
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate(['/game']);
+    }
   }
 
-  // onSubmit(form: NgForm) {
-  //   console.log('submitted');
-  //   console.log(form);
-  //
-  // }
+
   onSubmit() {
     this.submitted = true;
     this.user.username = this.signupForm.value.username;
@@ -40,11 +41,17 @@ export class LoginComponent implements OnInit {
 
     // console.log(this.signupForm);
     this.authService.login(this.user.username, this.user.password).subscribe(
-      (response) => console.log(response),
-      (error) => console.log(error)
+      (response) => {
+        console.log(response);
+        this.authService.loggedIn = true;
+        this.router.navigate(['/game']);
+      } ,
+      (error: HttpErrorResponse) => {
+        console.log(error);
+        this.inputError = !this.inputError;
+        this.httpMessage.bold = error.status.toString();
+        this.httpMessage.text = error.error.error_message;
+      }
     );
-    if (this.authService.isAuthenticated()) {
-      this.router.navigate(['/game']);
-    }
   }
 }

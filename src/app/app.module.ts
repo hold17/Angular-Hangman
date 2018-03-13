@@ -4,19 +4,21 @@ import {AppComponent} from './app.component';
 import {WordComponent} from './word/word.component';
 import {LoginComponent} from './login/login.component';
 import {FormsModule} from '@angular/forms';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {HttpClientModule} from '@angular/common/http';
 import {AppRoutingModule} from '../app-routing.module';
 import {AuthguardService} from '../authguard.service';
 import {AuthService} from '../auth.service';
 import {HighscoreComponent} from './highscore/highscore.component';
 import {ServerService} from '../server.service';
+import {HeaderComponent} from './header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     WordComponent,
     LoginComponent,
-    HighscoreComponent
+    HighscoreComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

@@ -74,8 +74,6 @@ export class WordComponent implements OnInit {
     this.router.navigate(['/highscores']);
   }
   onStartGameClicked() {
-    console.log(this.game.hasBegun);
-    this.game.hasBegun =  !this.game.hasBegun;
-    console.log(this.game.hasBegun);
+    this.serverService.startGame().subscribe();
   }
 }

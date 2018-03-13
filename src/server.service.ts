@@ -40,6 +40,7 @@ export class ServerService implements OnInit {
       {headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)}
     ).map((promise: Promise<JSON>) => {
       const response = promise;
+      console.log(this.token);
       console.log(response);
     });
   }

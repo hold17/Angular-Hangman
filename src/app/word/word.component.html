@@ -5,16 +5,22 @@
   </div>
   <hr>
   <div class="secretWord">
-    {{hiddenWord}}
+    {{game.visibleWord}}
   </div>
   <div><p class="alert"> {{gameStatus}}</p>
-    <div class="letterButtons">
-      <ul class="list-inline">
-        <li class="list-inline-item" *ngFor="let bLetter of buttonLetters; let i = index" (click)="onLetterClick(i); buttonEnabled = !buttonEnabled">
-          <button class="btn btn-primary letter-button">
-            {{bLetter}}</button>
-        </li>
-      </ul>
+    <div>
+      <div>
+        <button class="btn btn-primary"  (click)="onStartGameClicked()" *ngIf="!game.hasGameBegun">Start game</button>
+        <button class="btn btn-secondary"  (click)="onHighScoresClicked()" *ngIf="!game.hasGameBegun">Highscores</button>
+      </div>
+      <div class="letterButtons" *ngIf="game.hasGameBegun">
+        <ul class="list-inline">
+          <li class="list-inline-item" *ngFor="let bLetter of buttonLetters;" (click)="onLetterClick(bLetter);">
+            <button class="btn btn-primary letter-button">
+              {{bLetter}}</button>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>

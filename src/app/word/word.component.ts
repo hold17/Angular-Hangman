@@ -1,4 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {ServerService} from '../../server.service';
+import {HttpErrorResponse} from '@angular/common/http';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-word',
@@ -8,43 +11,71 @@ import {Component, Input, OnInit} from '@angular/core';
 export class WordComponent implements OnInit {
   @Input() index: number;
   gameStatus: string;
-  word: string;
+  word: 'default' ;
   buttonLetters: string[];
-  hiddenWord: string;
   images: string[] = ['./assets/GRAFIK/galge.png', './assets/GRAFIK/forkert1.png',
     './assets/GRAFIK/forkert2.png', './assets/GRAFIK/forkert3.png', './assets/GRAFIK/forkert4.png'
     , './assets/GRAFIK/forkert5.png', './assets/GRAFIK/forkert6.png'];
   letters: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
     'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'x', 'y', 'z'];
-  enabledLetters: boolean[] = [true, true, true, true, true, true, true, true, true, true, true, true,
-    true, true, true, true, true, true, true, true, true, true, true, true, true];
-  letter: string;
+
   imageIndex = 0;
   buttonEnabled: true;
+  game =  <any>{};
+
+  constructor(private serverService: ServerService, private router: Router) {}
   ngOnInit() {
+    this.serverService.getGame().subscribe(
+      (response: Object) => {
+        this.game = response;
+        console.log(response);
+        this.game = this.serverService.getJson(); // TODO: Find the correct way to do this.
+      }, (error: HttpErrorResponse) => {
+        console.log(error);
+        console.log(error.status.toString());
+        console.log(error.error.error_message);
+        this.serverService.restartGame().subscribe(
+          (restartResponse) => {
+            console.log(restartResponse);
+            this.game = restartResponse;
+          }, (restartError: HttpErrorResponse) => {
+            console.log(restartError);
+          }
+        );
+      }
+    );
+
     this.buttonLetters = this.letters;
-    this.word = 'default';
-    this.gameStatus = 'Welcome to hangman press a button to begin!';
-    this.hiddenWord = this.word;
+    this.gameStatus = 'Welcome to hangman, start a game or see the latest highscores!';
+
 
   }
-  onLetterClick(intLetter: number) {
-    this.enabledLetters[intLetter] = false;
-    console.log(this.enabledLetters);
-    if (this.imageIndex >= 6) {
-      this.gameStatus = 'Du har tabt ordet var: ' + this.word + ', et nyt spil vil starte';
+  onLetterClick(letter: string) {
+    this.serverService.guessLetter(letter).subscribe();
+    if (this.game.gameHasBeenLost) {
+      this.gameStatus = 'Du har tabt ordet var: ' + this.word;
+      this.imageIndex = -1;
+    }    else if (this.game.gameHasBeenWon) {
+      this.gameStatus = 'Du har vundet ordet var: ' + this.word;
       this.imageIndex = -1;
     }
-     this.letter = this.letters[intLetter];
-    const correctLetter = this.word.match(this.letter);
-      if (correctLetter === null) {
-        console.log('Wrong letter ' + this.letter + ' was pressed');
-        this.imageIndex++;
-        return true;
-      } else {
-        console.log(correctLetter);
-        return false;
-      }
+    if (!this.game.lastGuessedLetterIsCorrect) {
+      console.log('Wrong letter ' + letter + ' was pressed');
+      this.gameStatus = ('Wrong letter ' + letter + ' was pressed');
+      this.imageIndex++;
+      return true;
+    } else {
+      this.gameStatus = ('Correct letter' + letter + ' was pressed');
+      return false;
     }
+  }
 
+  onHighScoresClicked() {
+    this.router.navigate(['/highscores']);
+  }
+  onStartGameClicked() {
+    console.log(this.game.hasBegun);
+    this.game.hasBegun =  !this.game.hasBegun;
+    console.log(this.game.hasBegun);
+  }
 }

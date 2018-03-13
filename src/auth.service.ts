@@ -11,8 +11,8 @@ export class AuthService {
   isAuthenticated() {
     const promise = new Promise(
       (resolve, reject) => {
-        resolve(localStorage.getItem('token') != null);
-        reject(localStorage.getItem('token') == null);
+        resolve(localStorage.getItem('token') !== null);
+        reject(localStorage.getItem('token') === null);
       });
     return promise;
   }
@@ -33,8 +33,7 @@ export class AuthService {
 
     });
   }
-  logout() {
-    console.log(this.loggedIn);
+  logoutRemoveToken() {
     localStorage.removeItem('token');
     this.loggedIn = false;
   }

@@ -1,15 +1,14 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-highscore',
   templateUrl: './highscore.component.html',
   styleUrls: ['./highscore.component.css']
 })
-export class HighscoreComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
+export class HighscoreComponent {
+  constructor(private location: Location) {}
+  backClicked() {
+    this.location.back();
   }
-
 }

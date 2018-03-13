@@ -1,5 +1,6 @@
 import {Injectable, OnInit} from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
 
 interface UserResponse {
   studynumber: string;
@@ -8,23 +9,50 @@ interface UserResponse {
 
 @Injectable()
 export class ServerService implements OnInit {
-  results = '';
+  token: string;
+  json;
+  ngOnInit(): void {
+  }
   constructor(private http: HttpClient) {}
 
-  ngOnInit(): void {
-    this.http.get('https://localghost.dk/')
-      .subscribe(data => {
-          console.log(data);
-        },
-        (err: HttpErrorResponse) => {
-          if (err.error instanceof Error) {
-            console.log('Client side error');
-          } else {
-            console.log('Server side error');
-          }
-          console.log(err);
-        }
-      );
+  getGame(): Observable<any> {
+    this.token = JSON.parse(localStorage.getItem('token')).access_token;
+    return this.http.get('https://www.localghost.dk/hangman/api/hangman/game',
+      {headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)}
+      ).map((promise: Promise<JSON>) => {
+        const response = promise;
+        console.log(response);
+        this.json = promise;
+    });
   }
-
+  restartGame(): Observable<any> {
+    this.token = JSON.parse(localStorage.getItem('token')).access_token;
+    return this.http.post('https://www.localghost.dk/hangman/api/hangman/game', null,
+      {headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)}
+    ).map((promise: Promise<JSON>) => {
+      const response = promise;
+      console.log(response);
+    });
+  }
+  startGame(): Observable<any> {
+    this.token = JSON.parse(localStorage.getItem('token')).access_token;
+    return this.http.put('https://www.localghost.dk/hangman/api/hangman/game', null,
+      {headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)}
+    ).map((promise: Promise<JSON>) => {
+      const response = promise;
+      console.log(response);
+    });
+  }
+  guessLetter(letter: string): Observable<any> {
+    this.token = JSON.parse(localStorage.getItem('token')).access_token;
+    return this.http.post('https://www.localghost.dk/hangman/api/hangman/guess/' + letter, null,
+      {headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)}
+    ).map((promise: Promise<JSON>) => {
+      const response = promise;
+      console.log(response);
+    });
+  }
+  getJson() {
+    return this.json;
+  }
 }

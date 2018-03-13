@@ -34,6 +34,8 @@ export class AuthService {
     });
   }
   logout() {
+    console.log(this.loggedIn);
+    localStorage.removeItem('token');
     this.loggedIn = false;
   }
 }

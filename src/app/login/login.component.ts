@@ -4,6 +4,7 @@ import {AuthService} from '../../auth.service';
 import {Router} from '@angular/router';
 import {ServerService} from '../../server.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {HeaderComponent} from '../header/header.component';
 
 @Component({
   selector: 'app-login',
@@ -26,6 +27,7 @@ export class LoginComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router, private server: ServerService) { }
 
   ngOnInit() {
+    console.log(this.authService.loggedIn);
     if (this.authService.isAuthenticated()) {
       this.router.navigate(['/game']);
     }
@@ -44,6 +46,7 @@ export class LoginComponent implements OnInit {
       (response) => {
         console.log(response);
         this.authService.loggedIn = true;
+        console.log(this.authService.loggedIn);
         this.router.navigate(['/game']);
       } ,
       (error: HttpErrorResponse) => {

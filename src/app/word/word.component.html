@@ -10,10 +10,10 @@
   <div><p class="alert"> {{gameStatus}}</p>
     <div>
       <div>
-        <button class="btn btn-primary" (click)="onStartGameClicked()">Start game</button>
-        <button class="btn btn-secondary" (click)="onHighScoresClicked()">Highscores</button>
+        <button class="btn btn-primary" (click)="onStartGameClicked()" *ngIf="!game.HasGameBegun">Start game</button>
+        <button class="btn btn-secondary" (click)="onHighScoresClicked()" *ngIf="!game.HasGameBegun">Highscores</button>
       </div>
-      <div class="letterButtons">
+      <div class="letterButtons" *ngIf="game.HasGameBegun">
         <ul class="list-inline">
           <li class="list-inline-item" *ngFor="let bLetter of buttonLetters;" (click)="onLetterClick(bLetter);">
             <button class="btn btn-primary letter-button">

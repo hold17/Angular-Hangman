@@ -21,7 +21,17 @@ export class WordComponent implements OnInit {
 
   imageIndex = 0;
   buttonEnabled: true;
-  game =  <any>{};
+  game =  <any>{gameHasBeenLost: false,
+                gameHasBeenWon: false,
+                HasGameBegun: false,
+                isGameOver: false,
+                lastGuessedLetterIsCorrect: false,
+                score: 0,
+                time: '',
+                usedLetters: [],
+                visibleWord: '',
+                wrongLetterCount: 0
+  };
 
   constructor(private serverService: ServerService, private router: Router) {}
   ngOnInit() {
@@ -74,6 +84,7 @@ export class WordComponent implements OnInit {
     this.router.navigate(['/highscores']);
   }
   onStartGameClicked() {
+    this.game.HasGameBegun = true;
     this.serverService.startGame().subscribe();
   }
 }

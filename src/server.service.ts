@@ -20,8 +20,9 @@ export class ServerService implements OnInit {
       {headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)}
     ).map((res: Response) => {
       const response = res;
-        console.log(response);
+      console.log(response);
       this.json = response;
+      return response;
     });
 
   }
@@ -34,6 +35,7 @@ export class ServerService implements OnInit {
       const response = res;
       console.log(response);
       this.json = response;
+      return response;
     });
   }
 
@@ -46,6 +48,7 @@ export class ServerService implements OnInit {
       console.log(this.token);
       console.log(response);
       this.json = response;
+      return response;
     });
   }
 
@@ -57,7 +60,9 @@ export class ServerService implements OnInit {
       const response = res;
       console.log(response);
       this.json = response;
+      return response;
     });
+
   }
   getJson() {
     return this.json;

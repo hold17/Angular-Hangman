@@ -41,24 +41,29 @@ export class WordComponent implements OnInit {
     this.newGame();
   }
   onLetterClick(letter: string) {
-    this.serverService.guessLetter(letter).subscribe();
-    if (this.game.gameHasBeenLost) {
-      this.gameStatus = 'Du har tabt ordet var: ' + this.word;
-      this.imageIndex = -1;
-    }    else if (this.game.gameHasBeenWon) {
-      this.gameStatus = 'Du har vundet ordet var: ' + this.word;
-      this.imageIndex = -1;
-    }
-    if (!this.game.lastGuessedLetterIsCorrect) {
-      console.log('Wrong letter ' + letter + ' was pressed');
-      this.gameStatus = ('Wrong letter ' + letter + ' was pressed');
-      this.imageIndex++;
-      return true;
-    } else {
-      this.gameStatus = ('Correct letter ' + letter + ' was pressed');
-      return false;
-    }
+    this.serverService.guessLetter(letter).subscribe((res: Response) => {
+      this.game = res;
+      if (this.game.gameHasBeenLost) {
+        this.gameStatus = 'You have lost the word was: ' + this.word;
+        this.imageIndex = -1;
+      } else if (this.game.gameHasBeenWon) {
+        this.gameStatus = 'You have lost the word was : ' + this.word;
+        this.imageIndex = -1;
+      }
+      if (this.game.lastGuessedLetterIsCorrect === false) {
+        this.gameStatus = ('Wrong letter ' + letter + ' was pressed ');
+        console.log('Wrong letter ' + letter + ' was pressed' + this.game.lastGuessedLetterIsCorrect);
+        this.imageIndex++;
+        return true;
+      } else if (this.game.lastGuessedLetterIsCorrect) {
+        this.gameStatus = ('Correct letter ' + letter + ' was pressed');
+        console.log('Wrong letter ' + letter + ' was pressed ' + this.game.lastGuessedLetterIsCorrect);
+        return false;
+      }
+    });
+
   }
+
 
   onHighScoresClicked() {
     this.router.navigate(['/highscores']);
@@ -80,7 +85,6 @@ export class WordComponent implements OnInit {
             console.log('This is a restart response:');
             this.game = restartResponse;
             this.reloadedPreviousGame = true;
-            this.game = this.serverService.getJson();
             console.log(this.game);
           }, (restartError: HttpErrorResponse) => {
             console.log(restartError);
@@ -101,7 +105,6 @@ export class WordComponent implements OnInit {
         this.game = response;
         console.log('This is a get game response:');
         this.previousGameAvailabe = true;
-        this.game = this.serverService.getJson(); // TODO: Find the correct way to do this.
         console.log(this.game);
       }, (error: HttpErrorResponse) => {
         console.log(error);

@@ -19,7 +19,6 @@ export class WordComponent implements OnInit {
   letters: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
     'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'x', 'y', 'z'];
 
-  imageIndex = 0;
   buttonEnabled: true;
   game =  <any>{gameHasBeenLost: false,
                 gameHasBeenWon: false,
@@ -32,6 +31,7 @@ export class WordComponent implements OnInit {
                 visibleWord: '',
                 wrongLetterCount: 0
   };
+  imageIndex = 0;
   private previousGameAvailabe = false;
   private reloadedPreviousGame = false;
 
@@ -49,13 +49,12 @@ export class WordComponent implements OnInit {
       } else if (this.game.gameHasBeenWon) {
         this.gameStatus = 'You have lost the word was : ' + this.word;
         this.imageIndex = -1;
-      }
-      if (this.game.lastGuessedLetterIsCorrect === false) {
+      } else if (this.game.lastGuessedLetterIsCorrect === false) {
         this.gameStatus = ('Wrong letter ' + letter + ' was pressed ');
         console.log('Wrong letter ' + letter + ' was pressed' + this.game.lastGuessedLetterIsCorrect);
         this.imageIndex++;
         return true;
-      } else if (this.game.lastGuessedLetterIsCorrect) {
+      } else {
         this.gameStatus = ('Correct letter ' + letter + ' was pressed');
         console.log('Wrong letter ' + letter + ' was pressed ' + this.game.lastGuessedLetterIsCorrect);
         return false;

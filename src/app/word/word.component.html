@@ -4,16 +4,18 @@
     <img src={{images[imageIndex]}} />
   </div>
   <hr>
-  <div class="secretWord" *ngIf="game.HasGameBegun">
+  <div class="secretWord" *ngIf="game.hasGameBegun">
     {{game.visibleWord}}
   </div>
   <div><p class="alert"> {{gameStatus}}</p>
     <div>
       <div>
-        <button class="btn btn-primary" (click)="onStartGameClicked()" *ngIf="!game.HasGameBegun || game.isGameOver">Start game</button>
-        <button class="btn btn-secondary" (click)="onHighScoresClicked()" *ngIf="!game.HasGameBegun">Highscores</button>
+        <button class="btn btn-primary" (click)="onStartGameClicked()" *ngIf="!game.hasGameBegun || game.isGameOver">
+          Start game
+        </button>
+        <button class="btn btn-secondary" (click)="onHighScoresClicked()" *ngIf="!game.hasGameBegun">Highscores</button>
       </div>
-      <div class="letterButtons" *ngIf="game.HasGameBegun">
+      <div class="letterButtons" *ngIf="game.hasGameBegun">
         <ul class="list-inline">
           <li class="list-inline-item" *ngFor="let bLetter of buttonLetters;" (click)="onLetterClick(bLetter);">
             <button class="btn btn-primary letter-button">

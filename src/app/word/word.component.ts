@@ -23,7 +23,7 @@ export class WordComponent implements OnInit {
   buttonEnabled: true;
   game =  <any>{gameHasBeenLost: false,
                 gameHasBeenWon: false,
-                HasGameBegun: false,
+    hasGameBegun: false,
                 isGameOver: false,
                 lastGuessedLetterIsCorrect: false,
                 score: 0,
@@ -64,9 +64,31 @@ export class WordComponent implements OnInit {
     this.router.navigate(['/highscores']);
   }
   onStartGameClicked() {
-    this.game.HasGameBegun = true;
+    this.serverService.startGame().subscribe(
+      (response) => {
+        this.game = response;
+        console.log('This is a put game response:');
+        this.previousGameAvailabe = true;
+        this.game = this.serverService.getJson(); // TODO: Find the correct way to do this.
+        console.log(this.game);
+      }, (error: HttpErrorResponse) => {
+        console.log(error);
+        console.log(error.status.toString());
+        console.log(error.error.error_message);
+        this.serverService.restartGame().subscribe(
+          (restartResponse) => {
+            console.log('This is a restart response:');
+            this.game = restartResponse;
+            this.reloadedPreviousGame = true;
+            this.game = this.serverService.getJson();
+            console.log(this.game);
+          }, (restartError: HttpErrorResponse) => {
+            console.log(restartError);
+          }
+        );
+      }
+    );
     if (this.previousGameAvailabe && this.reloadedPreviousGame) {
-    this.serverService.startGame().subscribe();
     }
     // if (this.game.isGameOver) {
     //   this.serverService.startGame().subscribe();
@@ -75,19 +97,21 @@ export class WordComponent implements OnInit {
   }
   newGame() {
     this.serverService.getGame().subscribe(
-      (response: Object) => {
+      (response) => {
         this.game = response;
-        console.log(response);
+        console.log('This is a get game response:');
         this.previousGameAvailabe = true;
         this.game = this.serverService.getJson(); // TODO: Find the correct way to do this.
+        console.log(this.game);
       }, (error: HttpErrorResponse) => {
         console.log(error);
         console.log(error.status.toString());
         console.log(error.error.error_message);
         this.serverService.restartGame().subscribe(
           (restartResponse) => {
-            console.log(restartResponse);
+            console.log('This is a restart response:');
             this.game = restartResponse;
+            console.log(restartResponse);
             this.reloadedPreviousGame = true;
           }, (restartError: HttpErrorResponse) => {
             console.log(restartError);

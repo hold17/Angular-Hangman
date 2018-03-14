@@ -32,33 +32,13 @@ export class WordComponent implements OnInit {
                 visibleWord: '',
                 wrongLetterCount: 0
   };
+  private previousGameAvailabe = false;
+  private reloadedPreviousGame = false;
 
   constructor(private serverService: ServerService, private router: Router) {}
   ngOnInit() {
-    this.serverService.getGame().subscribe(
-      (response: Object) => {
-        this.game = response;
-        console.log(response);
-        this.game = this.serverService.getJson(); // TODO: Find the correct way to do this.
-      }, (error: HttpErrorResponse) => {
-        console.log(error);
-        console.log(error.status.toString());
-        console.log(error.error.error_message);
-        this.serverService.restartGame().subscribe(
-          (restartResponse) => {
-            console.log(restartResponse);
-            this.game = restartResponse;
-          }, (restartError: HttpErrorResponse) => {
-            console.log(restartError);
-          }
-        );
-      }
-    );
-
-    this.buttonLetters = this.letters;
-    this.gameStatus = 'Welcome to hangman, start a game or see the latest highscores!';
-
-
+    this.game.visibleWord = 'fixme';
+    this.newGame();
   }
   onLetterClick(letter: string) {
     this.serverService.guessLetter(letter).subscribe();
@@ -75,7 +55,7 @@ export class WordComponent implements OnInit {
       this.imageIndex++;
       return true;
     } else {
-      this.gameStatus = ('Correct letter' + letter + ' was pressed');
+      this.gameStatus = ('Correct letter ' + letter + ' was pressed');
       return false;
     }
   }
@@ -85,6 +65,38 @@ export class WordComponent implements OnInit {
   }
   onStartGameClicked() {
     this.game.HasGameBegun = true;
+    if (this.previousGameAvailabe && this.reloadedPreviousGame) {
     this.serverService.startGame().subscribe();
+    }
+    // if (this.game.isGameOver) {
+    //   this.serverService.startGame().subscribe();
+    //   this.newGame();
+    // }
+  }
+  newGame() {
+    this.serverService.getGame().subscribe(
+      (response: Object) => {
+        this.game = response;
+        console.log(response);
+        this.previousGameAvailabe = true;
+        this.game = this.serverService.getJson(); // TODO: Find the correct way to do this.
+      }, (error: HttpErrorResponse) => {
+        console.log(error);
+        console.log(error.status.toString());
+        console.log(error.error.error_message);
+        this.serverService.restartGame().subscribe(
+          (restartResponse) => {
+            console.log(restartResponse);
+            this.game = restartResponse;
+            this.reloadedPreviousGame = true;
+          }, (restartError: HttpErrorResponse) => {
+            console.log(restartError);
+          }
+        );
+      }
+    );
+
+    this.buttonLetters = this.letters;
+    this.gameStatus = 'Welcome to hangman, start a game or see the latest highscores!';
   }
 }

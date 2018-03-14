@@ -4,13 +4,13 @@
     <img src={{images[imageIndex]}} />
   </div>
   <hr>
-  <div class="secretWord">
+  <div class="secretWord" *ngIf="game.HasGameBegun">
     {{game.visibleWord}}
   </div>
   <div><p class="alert"> {{gameStatus}}</p>
     <div>
       <div>
-        <button class="btn btn-primary" (click)="onStartGameClicked()" *ngIf="!game.HasGameBegun">Start game</button>
+        <button class="btn btn-primary" (click)="onStartGameClicked()" *ngIf="!game.HasGameBegun || game.isGameOver">Start game</button>
         <button class="btn btn-secondary" (click)="onHighScoresClicked()" *ngIf="!game.HasGameBegun">Highscores</button>
       </div>
       <div class="letterButtons" *ngIf="game.HasGameBegun">

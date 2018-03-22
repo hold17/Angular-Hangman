@@ -37,7 +37,6 @@ export class WordComponent implements OnInit {
 
   constructor(private serverService: ServerService, private router: Router) {}
   ngOnInit() {
-    this.game.visibleWord = 'fixme';
     this.newGame();
   }
   onLetterClick(letter: string) {
@@ -60,10 +59,7 @@ export class WordComponent implements OnInit {
         return false;
       }
     });
-
   }
-
-
   onHighScoresClicked() {
     this.router.navigate(['/highscores']);
   }
@@ -121,7 +117,6 @@ export class WordComponent implements OnInit {
         );
       }
     );
-
     this.buttonLetters = this.letters;
     this.gameStatus = 'Welcome to hangman, start a game or see the latest highscores!';
   }

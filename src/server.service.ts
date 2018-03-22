@@ -7,11 +7,10 @@ interface UserResponse {
 }
 
 @Injectable()
-export class ServerService implements OnInit {
+export class ServerService  {
   token: string;
   json;
-  ngOnInit(): void {
-  }
+
   constructor(private http: HttpClient) {}
 
   getGame() {

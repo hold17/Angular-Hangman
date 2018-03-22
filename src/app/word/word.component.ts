@@ -9,7 +9,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./word.component.css']
 })
 export class WordComponent implements OnInit {
-  @Input() index: number;
+  index: number;
   gameStatus: string;
   word: 'default' ;
   buttonLetters: string[];
@@ -17,9 +17,8 @@ export class WordComponent implements OnInit {
     './assets/GRAFIK/forkert2.png', './assets/GRAFIK/forkert3.png', './assets/GRAFIK/forkert4.png'
     , './assets/GRAFIK/forkert5.png', './assets/GRAFIK/forkert6.png'];
   letters: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
-    'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'x', 'y', 'z'];
+    'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 
-  buttonEnabled: true;
   game =  <any>{gameHasBeenLost: false,
                 gameHasBeenWon: false,
     hasGameBegun: false,
@@ -29,7 +28,7 @@ export class WordComponent implements OnInit {
                 time: '',
                 usedLetters: [],
                 visibleWord: '',
-                wrongLetterCount: 0
+                wrongLettersCount: 0
   };
   imageIndex = 0;
   private previousGameAvailabe = false;
@@ -44,19 +43,17 @@ export class WordComponent implements OnInit {
       this.game = res;
       if (this.game.gameHasBeenLost) {
         this.gameStatus = 'You have lost the word was: ' + this.word;
-        this.imageIndex = -1;
+        // this.imageIndex = -1;
       } else if (this.game.gameHasBeenWon) {
         this.gameStatus = 'You have lost the word was : ' + this.word;
-        this.imageIndex = -1;
+        // this.imageIndex = -1;
       } else if (this.game.lastGuessedLetterIsCorrect === false) {
         this.gameStatus = ('Wrong letter ' + letter + ' was pressed ');
         console.log('Wrong letter ' + letter + ' was pressed' + this.game.lastGuessedLetterIsCorrect);
-        this.imageIndex++;
-        return true;
+        // this.imageIndex++;
       } else {
         this.gameStatus = ('Correct letter ' + letter + ' was pressed');
         console.log('Wrong letter ' + letter + ' was pressed ' + this.game.lastGuessedLetterIsCorrect);
-        return false;
       }
     });
   }
@@ -69,7 +66,7 @@ export class WordComponent implements OnInit {
         this.game = response;
         console.log('This is a put game response:');
         this.previousGameAvailabe = true;
-        this.game = this.serverService.getJson(); // TODO: Find the correct way to do this.
+        // this.game = this.serverService.getJson(); // TODO: Find the correct way to do this.
         console.log(this.game);
       }, (error: HttpErrorResponse) => {
         console.log(error);

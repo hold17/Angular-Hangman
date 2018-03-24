@@ -7,16 +7,11 @@ import {Router} from '@angular/router';
   templateUrl: './header.component.html',
   styleUrls: []
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent  {
   constructor(private auth: AuthService, private router: Router) {}
   logout() {
     this.auth.logoutRemoveToken();
     this.router.navigate(['/login']);
   }
-  ngOnInit(): void {
-    console.log(this.auth.loggedIn);
-    if (this.auth.isAuthenticated() && this.auth.loggedIn) {
-      this.logout();
-    }
-  }
+
 }

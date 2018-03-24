@@ -36,7 +36,7 @@ export class WordComponent implements OnInit {
 
   constructor(private serverService: ServerService, private router: Router) {}
   ngOnInit() {
-    this.newGame();
+    this.newGame(); // Initialiserer spillet
   }
   onLetterClick(letter: string) {
     this.serverService.guessLetter(letter).subscribe((res: Response) => {

@@ -32,7 +32,6 @@ export class LoginComponent implements OnInit {
     }
   }
 
-
   onSubmit() {
     this.submitted = true;
     this.user.username = this.signupForm.value.username;

@@ -42,7 +42,6 @@ export class LoginComponent implements OnInit {
     // console.log(this.signupForm);
     this.authService.login(this.user.username, this.user.password).subscribe(
       (response) => {
-        this.submitted = false;
         this.authService.loggedIn = true;
         this.router.navigate(['/game']);
       } ,
@@ -51,7 +50,6 @@ export class LoginComponent implements OnInit {
         this.inputError = !this.inputError;
         this.httpMessage.bold = error.status.toString();
         this.httpMessage.text = error.error.error_message;
-        this.submitted = false;
       }
     );
   }

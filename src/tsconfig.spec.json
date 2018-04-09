@@ -1,6 +1,5 @@
 {
   "extends": "../tsconfig.json",
-  "baseUrl": "src",
   "compilerOptions": {
     "outDir": "../out-tsc/spec",
     "baseUrl": "./",

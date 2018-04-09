@@ -1,4 +1,6 @@
 <div class="container">
+
+  <ngx-loading [show]="submitted" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
   <form class="form-horizontal" (ngSubmit)="onSubmit()" #f="ngForm" role="form" >
     <div class="row">
       <div class="col-md-3"></div>

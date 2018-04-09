@@ -11,7 +11,7 @@ import {AuthService} from '../auth.service';
 import {HighscoreComponent} from './highscore/highscore.component';
 import {ServerService} from '../server.service';
 import {HeaderComponent} from './header/header.component';
-import { LoadingModule } from 'ngx-loading';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,8 +24,7 @@ import { LoadingModule } from 'ngx-loading';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    AppRoutingModule,
-    LoadingModule
+    AppRoutingModule
   ],
   providers: [AuthguardService, AuthService, ServerService],
   bootstrap: [AppComponent]

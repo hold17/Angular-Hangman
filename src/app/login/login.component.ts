@@ -42,10 +42,12 @@ export class LoginComponent implements OnInit {
     // console.log(this.signupForm);
     this.authService.login(this.user.username, this.user.password).subscribe(
       (response) => {
+        this.submitted = false;
         this.authService.loggedIn = true;
         this.router.navigate(['/game']);
       } ,
       (error: HttpErrorResponse) => {
+        this.submitted = false;
         console.log(error);
         this.inputError = !this.inputError;
         this.httpMessage.bold = error.status.toString();

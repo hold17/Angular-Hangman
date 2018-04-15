@@ -3,6 +3,7 @@ import {ServerService} from '../../server.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
+import {componentRefresh} from '@angular/core/src/render3/instructions';
 
 @Component({
   selector: 'app-word',
@@ -10,7 +11,7 @@ import {ToastrService} from 'ngx-toastr';
   styleUrls: ['./word.component.css']
 })
 export class WordComponent implements OnInit {
-  loading: boolean = false;
+  loading = false;
   index: number;
   gameStatus: string;
   word: 'default' ;
@@ -36,11 +37,16 @@ export class WordComponent implements OnInit {
   private previousGameAvailabe = false;
   private reloadedPreviousGame = false;
 
-  constructor(private serverService: ServerService, private router: Router, private toastr: ToastrService) {}
+  constructor(private serverService: ServerService, private router: Router, private toastr: ToastrService) {
+    for (let i = 0; i <= this.game.usedLetters.size; i++) { //TODO: Fix this doesnt work??
+      document.getElementById(this.game.usedLetters[i]).hidden = true;
+    }
+  }
   ngOnInit() {
     this.newGame(); // Initialiserer spillet
   }
   onLetterClick(letter: string) {
+    document.getElementById(letter).hidden = true;
     this.loading = true;
     this.serverService.guessLetter(letter).subscribe((res: Response) => {
       this.game = res;
@@ -48,7 +54,7 @@ export class WordComponent implements OnInit {
         this.gameStatus = 'You have lost the word was: ' + this.word;
         // this.imageIndex = -1;
       } else if (this.game.gameHasBeenWon) {
-        this.gameStatus = 'You have lost the word was : ' + this.word;
+        this.gameStatus = 'You have won the word was : ' + this.word;
         // this.imageIndex = -1;
       } else if (this.game.lastGuessedLetterIsCorrect === false) {
         this.gameStatus = ('Wrong letter ' + letter + ' was pressed ');
@@ -56,11 +62,14 @@ export class WordComponent implements OnInit {
         // this.imageIndex++;
       } else {
         this.gameStatus = ('Correct letter ' + letter + ' was pressed');
-        console.log('Wrong letter ' + letter + ' was pressed ' + this.game.lastGuessedLetterIsCorrect);
+        console.log('Correct letter ' + letter + ' was pressed ' + this.game.lastGuessedLetterIsCorrect);
       }
       this.loading = false;
-    }, (error: Error) => {
+    }, (error: HttpErrorResponse) => {
       this.toastr.error('An error occurred, check the console.');
+      if (error.status === 500) {
+        this.router.navigate([WordComponent]); // Midlertidig work-around TODO: FIX
+      }
       this.loading = false;
       console.log(error);
     });

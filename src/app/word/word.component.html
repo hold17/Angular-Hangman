@@ -16,7 +16,7 @@
       </div>
       <div class="letterButtons" *ngIf="game.hasGameBegun">
         <ul class="list-inline">
-          <li class="list-inline-item" *ngFor="let bLetter of buttonLetters;" (click)="onLetterClick(bLetter);">
+          <li id="{{bLetter}}" class="list-inline-item" *ngFor="let bLetter of buttonLetters;" (click)="onLetterClick(bLetter);">
             <button class="btn btn-primary letter-button">
               {{bLetter}}</button>
           </li>

@@ -12,6 +12,9 @@ import {HighscoreComponent} from './highscore/highscore.component';
 import {ServerService} from '../server.service';
 import {HeaderComponent} from './header/header.component';
 import { LoadingModule } from 'ngx-loading';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ToastrModule} from 'ngx-toastr';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +28,12 @@ import { LoadingModule } from 'ngx-loading';
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
-    LoadingModule
+    LoadingModule,
+    NgxDatatableModule,
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot({
+      timeOut: 2000
+    }), // ToastrModule added
   ],
   providers: [AuthguardService, AuthService, ServerService],
   bootstrap: [AppComponent]

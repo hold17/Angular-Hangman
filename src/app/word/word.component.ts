@@ -1,7 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ServerService} from '../../server.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-word',
@@ -9,6 +10,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./word.component.css']
 })
 export class WordComponent implements OnInit {
+  loading: boolean = false;
   index: number;
   gameStatus: string;
   word: 'default' ;
@@ -34,11 +36,12 @@ export class WordComponent implements OnInit {
   private previousGameAvailabe = false;
   private reloadedPreviousGame = false;
 
-  constructor(private serverService: ServerService, private router: Router) {}
+  constructor(private serverService: ServerService, private router: Router, private toastr: ToastrService) {}
   ngOnInit() {
     this.newGame(); // Initialiserer spillet
   }
   onLetterClick(letter: string) {
+    this.loading = true;
     this.serverService.guessLetter(letter).subscribe((res: Response) => {
       this.game = res;
       if (this.game.gameHasBeenLost) {
@@ -55,12 +58,18 @@ export class WordComponent implements OnInit {
         this.gameStatus = ('Correct letter ' + letter + ' was pressed');
         console.log('Wrong letter ' + letter + ' was pressed ' + this.game.lastGuessedLetterIsCorrect);
       }
+      this.loading = false;
+    }, (error: Error) => {
+      this.toastr.error('An error occurred, check the console.');
+      this.loading = false;
+      console.log(error);
     });
   }
   onHighScoresClicked() {
     this.router.navigate(['/highscores']);
   }
   onStartGameClicked() {
+    this.loading = true;
     this.serverService.startGame().subscribe(
       (response) => {
         this.game = response;
@@ -68,7 +77,9 @@ export class WordComponent implements OnInit {
         this.previousGameAvailabe = true;
         // this.game = this.serverService.getJson(); // TODO: Find the correct way to do this.
         console.log(this.game);
+        this.loading = false;
       }, (error: HttpErrorResponse) => {
+        this.loading = true;
         console.log(error);
         console.log(error.status.toString());
         console.log(error.error.error_message);
@@ -77,9 +88,11 @@ export class WordComponent implements OnInit {
             console.log('This is a restart response:');
             this.game = restartResponse;
             this.reloadedPreviousGame = true;
+            this.loading = false;
             console.log(this.game);
           }, (restartError: HttpErrorResponse) => {
             console.log(restartError);
+            this.loading = false;
           }
         );
       }
@@ -97,10 +110,17 @@ export class WordComponent implements OnInit {
         this.game = response;
         console.log('This is a get game response:');
         this.previousGameAvailabe = true;
+        this.toastr.success('Previous game loaded.');
         console.log(this.game);
       }, (error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          this.toastr.warning('Din session er udløbet, log ud og ind igen');
+        } else {
+          this.toastr.error('An error occurred, check the console');
+        }
         console.log(error);
         console.log(error.status.toString());
+
         console.log(error.error.error_message);
         this.serverService.restartGame().subscribe(
           (restartResponse) => {

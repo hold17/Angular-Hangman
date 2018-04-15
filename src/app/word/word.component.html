@@ -1,5 +1,6 @@
 <br>
 <div class="container-fluid">
+  <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
   <div>
     <img src={{images[game.wrongLettersCount]}} />
   </div>
@@ -10,10 +11,8 @@
   <div><p class="alert"> {{gameStatus}}</p>
     <div>
       <div>
-        <button class="btn btn-primary" (click)="onStartGameClicked()" *ngIf="!game.hasGameBegun || game.isGameOver">
-          Start game
-        </button>
-        <button class="btn btn-secondary" (click)="onHighScoresClicked()" *ngIf="!game.hasGameBegun">Highscores</button>
+        <button class="btn btn-primary" (click)="onStartGameClicked()" *ngIf="!game.hasGameBegun || game.isGameOver">Start game</button>
+        <button class="btn btn-secondary" (click)="onHighScoresClicked()" *ngIf="!game.hasGameBegun || game.isGameOver">Highscores</button>
       </div>
       <div class="letterButtons" *ngIf="game.hasGameBegun">
         <ul class="list-inline">

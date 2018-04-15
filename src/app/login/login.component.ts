@@ -4,6 +4,7 @@ import {AuthService} from '../../auth.service';
 import {Router} from '@angular/router';
 import {ServerService} from '../../server.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,9 @@ export class LoginComponent implements OnInit {
     text: ''
   };
 
-  constructor(private authService: AuthService, private router: Router, private server: ServerService) { }
+  constructor(private authService: AuthService,
+              private router: Router,
+              private toastr: ToastrService) { }
 
   ngOnInit() {
     console.log( localStorage.getItem('token'));
@@ -44,6 +47,7 @@ export class LoginComponent implements OnInit {
       (response) => {
         this.submitted = false;
         this.authService.loggedIn = true;
+        this.toastr.success('You have succesfully logged in')
         this.router.navigate(['/game']);
       } ,
       (error: HttpErrorResponse) => {

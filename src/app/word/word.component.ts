@@ -1,9 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {ServerService} from '../../server.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
-import {componentRefresh} from '@angular/core/src/render3/instructions';
 
 @Component({
   selector: 'app-word',
@@ -14,7 +13,6 @@ export class WordComponent implements OnInit {
   loading = false;
   index: number;
   gameStatus: string;
-  word: 'default' ;
   buttonLetters: string[];
   images: string[] = ['./assets/GRAFIK/galge.png', './assets/GRAFIK/forkert1.png',
     './assets/GRAFIK/forkert2.png', './assets/GRAFIK/forkert3.png', './assets/GRAFIK/forkert4.png'
@@ -24,7 +22,7 @@ export class WordComponent implements OnInit {
 
   game =  <any>{gameHasBeenLost: false,
                 gameHasBeenWon: false,
-    hasGameBegun: false,
+                hasGameBegun: false,
                 isGameOver: false,
                 lastGuessedLetterIsCorrect: false,
                 score: 0,
@@ -38,31 +36,32 @@ export class WordComponent implements OnInit {
   private reloadedPreviousGame = false;
 
   constructor(private serverService: ServerService, private router: Router, private toastr: ToastrService) {
-    for (let i = 0; i <= this.game.usedLetters.size; i++) { //TODO: Fix this doesnt work??
-      document.getElementById(this.game.usedLetters[i]).hidden = true;
-    }
   }
   ngOnInit() {
     this.newGame(); // Initialiserer spillet
+    if (this.game.hasGameBegun) {
+      this.gameStatus = 'Continue where you left off';
+    }
   }
+
   onLetterClick(letter: string) {
     document.getElementById(letter).hidden = true;
     this.loading = true;
     this.serverService.guessLetter(letter).subscribe((res: Response) => {
       this.game = res;
       if (this.game.gameHasBeenLost) {
-        this.gameStatus = 'You have lost the word was: ' + this.word;
+        this.gameStatus = 'You have lost, try again';
         // this.imageIndex = -1;
       } else if (this.game.gameHasBeenWon) {
-        this.gameStatus = 'You have won the word was : ' + this.word;
+        this.gameStatus = 'Great job, you won the game!';
         // this.imageIndex = -1;
       } else if (this.game.lastGuessedLetterIsCorrect === false) {
         this.gameStatus = ('Wrong letter ' + letter + ' was pressed ');
-        console.log('Wrong letter ' + letter + ' was pressed' + this.game.lastGuessedLetterIsCorrect);
+        // console.log('Wrong letter ' + letter + ' was pressed' + this.game.lastGuessedLetterIsCorrect);
         // this.imageIndex++;
       } else {
         this.gameStatus = ('Correct letter ' + letter + ' was pressed');
-        console.log('Correct letter ' + letter + ' was pressed ' + this.game.lastGuessedLetterIsCorrect);
+        // console.log('Correct letter ' + letter + ' was pressed ' + this.game.lastGuessedLetterIsCorrect);
       }
       this.loading = false;
     }, (error: HttpErrorResponse) => {
@@ -82,7 +81,7 @@ export class WordComponent implements OnInit {
     this.serverService.startGame().subscribe(
       (response) => {
         this.game = response;
-        console.log('This is a put game response:');
+        // console.log('This is a put game response:');
         this.previousGameAvailabe = true;
         // this.game = this.serverService.getJson(); // TODO: Find the correct way to do this.
         console.log(this.game);
@@ -113,17 +112,23 @@ export class WordComponent implements OnInit {
     //   this.newGame();
     // }
   }
+
+  checkLetter(letter: string) {
+    for (let i = 0; i < this.game.usedLetters.length; i++) {
+      if (letter === this.game.usedLetters[i]) {return letter; }
+    }
+  }
   newGame() {
     this.serverService.getGame().subscribe(
       (response) => {
         this.game = response;
-        console.log('This is a get game response:');
+        // console.log('This is a get game response:');
         this.previousGameAvailabe = true;
         this.toastr.success('Previous game loaded.');
-        console.log(this.game);
+        // console.log(this.game);
       }, (error: HttpErrorResponse) => {
         if (error.status === 401) {
-          this.toastr.warning('Din session er udløbet, log ud og ind igen');
+          this.toastr.warning('Your session has expired, please log out, then log in ');
         } else {
           this.toastr.error('An error occurred, check the console');
         }
@@ -146,4 +151,5 @@ export class WordComponent implements OnInit {
     this.buttonLetters = this.letters;
     this.gameStatus = 'Welcome to hangman, start a game or see the latest highscores!';
   }
+
 }

@@ -1,24 +1,24 @@
 <div>
-  <div>
-    <h3>
-      Fluid Row Heights
-      <small>
-        <a href="https://github.com/swimlane/ngx-datatable/blob/master/demo/basic/basic-auto.component.ts" target="_blank">
-          Source
-        </a>
-      </small>
-    </h3>
-    <ngx-datatable
-      class="bootstrap"
-      [rows]="rows"
-      [loadingIndicator]="loadingIndicator"
-      [columns]="columns"
-      [columnMode]="'force'"
-      [headerHeight]="50"
-      [footerHeight]="50"
-      [rowHeight]="'auto'"
-      [reorderable]="reorderable">
-    </ngx-datatable>
-  </div>
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Studynumber</th>
+      <th scope="col">Time</th>
+      <th scope="col">Word</th>
+      <th scope="col">Score</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let row of rows">
+      <th scope="row">{{row.id}}</th>
+      <td>{{row.playerName}}</td>
+      <td>{{row.time | date } </td>
+      <td>{{row.correctWord}}</td>
+      <td>{{row.score}}</td>
+    </tr>
+
+    </tbody>
+  </table>
   <button class="btn btn-link" (click)="backClicked()">Back</button>
 </div>

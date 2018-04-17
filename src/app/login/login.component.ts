@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {ServerService} from '../../server.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
+import {Provider, SocialLoginService} from 'ngx-social-login';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +27,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private authService: AuthService,
               private router: Router,
-              private toastr: ToastrService) { }
+              private toastr: ToastrService,
+              private _service: SocialLoginService) { }
 
   ngOnInit() {
     console.log( localStorage.getItem('token'));
@@ -47,8 +49,8 @@ export class LoginComponent implements OnInit {
       (response) => {
         this.submitted = false;
         this.authService.loggedIn = true;
-        this.toastr.success('You have succesfully logged in')
         this.router.navigate(['/game']);
+        this.toastr.success('You have succesfully logged in');
       } ,
       (error: HttpErrorResponse) => {
         this.submitted = false;
@@ -58,5 +60,33 @@ export class LoginComponent implements OnInit {
         this.httpMessage.text = error.error.error_message;
       }
     );
+  }
+
+  loginWithFacebook(): void {
+    this._service.login(Provider.FACEBOOK).subscribe(user => {
+      console.log(user);
+      this.authService.loginSocial = true;
+      this.router.navigate(['/game']);
+      this.toastr.success('You have succesfully logged in');
+    }, (error => {
+      console.log(error);
+      this.toastr.error('Something with Facebook authentication went wrong');
+
+    } ));
+
+  }
+
+  loginWithGoogle(): void {
+    console.log('login with google attempt');
+    this._service.login(Provider.GOOGLE).subscribe(user => {
+      console.log(user);
+      this.authService.loginSocial = true;
+      this.router.navigate(['/game']);
+      this.toastr.success('You have succesfully logged in');
+    }, error => {
+      console.log(error);
+      this.toastr.error('Something with Google authentication went wrong');
+    } );
+
   }
 }

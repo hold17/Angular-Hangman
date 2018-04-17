@@ -14,7 +14,7 @@ export class AuthguardService implements CanActivate, CanActivateChild {
       (authenticated: boolean) => {
         if (authenticated) {
           this.authService.loggedIn = true;
-          console.log(authenticated);
+          // console.log(authenticated);
           return true;
         } else {
           this.authService.loggedIn = false;
@@ -24,7 +24,7 @@ export class AuthguardService implements CanActivate, CanActivateChild {
     );
   }
 
-  canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+  canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean{
     return this.canActivate(childRoute, state);
   }
 

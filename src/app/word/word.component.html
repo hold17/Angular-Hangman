@@ -14,10 +14,10 @@
         <button class="btn btn-primary" (click)="onStartGameClicked()" *ngIf="!game.hasGameBegun || game.isGameOver">Start game</button>
         <button class="btn btn-secondary" (click)="onHighScoresClicked()" *ngIf="!game.hasGameBegun || game.isGameOver">Highscores</button>
       </div>
-      <div class="letterButtons" *ngIf="game.hasGameBegun">
+      <div class="letterButtons" *ngIf="game.hasGameBegun || !game.isGameOver">
         <ul class="list-inline">
           <li id="{{bLetter}}" class="list-inline-item" *ngFor="let bLetter of buttonLetters;" (click)="onLetterClick(bLetter);">
-            <button class="btn btn-primary letter-button">
+            <button class="btn btn-primary letter-button" *ngIf="bLetter !== checkLetter(bLetter)"> <!--TODO: FIX -->
               {{bLetter}}</button>
           </li>
         </ul>

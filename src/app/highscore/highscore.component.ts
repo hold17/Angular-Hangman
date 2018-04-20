@@ -5,8 +5,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-highscore',
-  templateUrl: './highscore.component.html',
-  styleUrls: ['./highscore.component.scss']
+  templateUrl: './highscore.component.html'
 })
 export class HighscoreComponent {
 

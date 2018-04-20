@@ -15,13 +15,15 @@ import {LoadingModule} from 'ngx-loading';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastrModule} from 'ngx-toastr';
 import {NgxSocialLoginModule} from 'ngx-social-login';
+import {TimePipe} from './highscore/time.pipe';
 @NgModule({
   declarations: [
     AppComponent,
     WordComponent,
     LoginComponent,
     HighscoreComponent,
-    HeaderComponent
+    HeaderComponent,
+    TimePipe
   ],
   imports: [
     BrowserModule,

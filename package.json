@@ -11,7 +11,10 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "electron": "electron .",
-    "electron-build": "ng build --prod && electron ."
+    "electron-build": "ng build --prod && electron .",
+    "package-win": "electron-packager . Hangman --overwrite --asar=true --platform=win32 --arch=ia32 --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Hangman\"",
+    "package-linux": "electron-packager . Hangman --overwrite --asar=true --platform=linux --arch=x64 --icon=favicon.ico --prune=true --out=release-builds"
+
   },
   "private": true,
   "dependencies": {
@@ -24,11 +27,9 @@
     "@angular/platform-browser": "^5.2.0",
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
-    "@swimlane/ngx-datatable": "^11.3.2",
     "bootstrap": "^4.0.0",
     "core-js": "^2.4.1",
     "jquery": "^3.3.1",
-    "ngx-electron": "^1.0.4",
     "ngx-loading": "^1.0.14",
     "ngx-social-login": "^1.0.4",
     "ngx-toastr": "^8.4.0",
@@ -46,6 +47,7 @@
     "@types/node": "~8.9.4",
     "codelyzer": "~4.1.0",
     "electron": "^1.8.4",
+    "electron-installer-windows": "^1.1.0",
     "electron-packager": "^12.0.1",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",

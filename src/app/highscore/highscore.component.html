@@ -13,7 +13,7 @@
     <tr *ngFor="let row of rows">
       <th scope="row">{{row.id}}</th>
       <td>{{row.playerName}}</td>
-      <td>{{row.time | date } </td>
+      <td>{{row.time | timeFormat}}</td>
       <td>{{row.correctWord}}</td>
       <td>{{row.score}}</td>
     </tr>

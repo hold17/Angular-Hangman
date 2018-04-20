@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ServerService} from '../../server.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
@@ -10,38 +10,43 @@ import {ToastrService} from 'ngx-toastr';
   styleUrls: ['./word.component.css']
 })
 export class WordComponent implements OnInit {
-  loading = false;
+  loading: boolean;
   index: number;
   gameStatus: string;
   buttonLetters: string[];
-  images: string[] = ['./assets/GRAFIK/galge.png', './assets/GRAFIK/forkert1.png',
-    './assets/GRAFIK/forkert2.png', './assets/GRAFIK/forkert3.png', './assets/GRAFIK/forkert4.png'
-    , './assets/GRAFIK/forkert5.png', './assets/GRAFIK/forkert6.png'];
-  letters: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
-    'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+  images: string[];
+  letters: string[];
+  game: Array<any>;
+  imageIndex: number;
+  private previousGameAvailabe: boolean;
+  private reloadedPreviousGame: boolean;
+  redText: string;
+  greenText: string;
 
-  game =  <any>{gameHasBeenLost: false,
-                gameHasBeenWon: false,
-                hasGameBegun: false,
-                isGameOver: false,
-                lastGuessedLetterIsCorrect: false,
-                score: 0,
-                time: '',
-                usedLetters: [],
-                visibleWord: '',
-                wrongLettersCount: 0
-  };
-  imageIndex = 0;
-  private previousGameAvailabe = false;
-  private reloadedPreviousGame = false;
-
-  constructor(private serverService: ServerService, private router: Router, private toastr: ToastrService) {
-  }
+  constructor(private serverService: ServerService, private router: Router, private toastr: ToastrService) {}
   ngOnInit() {
+    this.loading = false;
+    this.imageIndex = 0;
+    this.previousGameAvailabe = false;
+    this.reloadedPreviousGame = false;
+    this.images = ['./assets/GRAFIK/galge.png', './assets/GRAFIK/forkert1.png',
+      './assets/GRAFIK/forkert2.png', './assets/GRAFIK/forkert3.png', './assets/GRAFIK/forkert4.png'
+      , './assets/GRAFIK/forkert5.png', './assets/GRAFIK/forkert6.png'];
+    this.letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+      'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+    this.game =  <any>{gameHasBeenLost: false,
+      gameHasBeenWon: false,
+      hasGameBegun: false,
+      isGameOver: false,
+      lastGuessedLetterIsCorrect: false,
+      score: 0,
+      time: '',
+      usedLetters: [],
+      visibleWord: '',
+      wrongLettersCount: 0
+    };
     this.newGame(); // Initialiserer spillet
-    if (this.game.hasGameBegun) {
-      this.gameStatus = 'Continue where you left off';
-    }
+
   }
 
   onLetterClick(letter: string) {
@@ -50,17 +55,25 @@ export class WordComponent implements OnInit {
     this.serverService.guessLetter(letter).subscribe((res: Response) => {
       this.game = res;
       if (this.game.gameHasBeenLost) {
-        this.gameStatus = 'You have lost, try again';
+        this.greenText = '';
+        this.redText = 'You have lost, ';
+        this.gameStatus = 'try again';
         // this.imageIndex = -1;
       } else if (this.game.gameHasBeenWon) {
-        this.gameStatus = 'Great job, you won the game!';
+        this.redText = '';
+        this.greenText = 'Great job, ';
+        this.gameStatus = 'you won the game!';
         // this.imageIndex = -1;
       } else if (this.game.lastGuessedLetterIsCorrect === false) {
-        this.gameStatus = ('Wrong letter ' + letter + ' was pressed ');
+        this.greenText = '';
+        this.redText = 'Wrong letter ';
+        this.gameStatus = (letter + ' was pressed ');
         // console.log('Wrong letter ' + letter + ' was pressed' + this.game.lastGuessedLetterIsCorrect);
         // this.imageIndex++;
       } else {
-        this.gameStatus = ('Correct letter ' + letter + ' was pressed');
+        this.redText = '';
+        this.greenText = 'Correct letter ';
+        this.gameStatus = letter + ' was pressed';
         // console.log('Correct letter ' + letter + ' was pressed ' + this.game.lastGuessedLetterIsCorrect);
       }
       this.loading = false;
@@ -86,6 +99,9 @@ export class WordComponent implements OnInit {
         // this.game = this.serverService.getJson(); // TODO: Find the correct way to do this.
         console.log(this.game);
         this.loading = false;
+        this.gameStatus = 'You can start guessing the new word now!';
+        this.greenText = '';
+        this.redText = '';
       }, (error: HttpErrorResponse) => {
         this.loading = true;
         console.log(error);
@@ -125,6 +141,7 @@ export class WordComponent implements OnInit {
         // console.log('This is a get game response:');
         this.previousGameAvailabe = true;
         this.toastr.success('Previous game loaded.');
+        this.gameStatus = 'Welcome back, continue where you left off!';
         // console.log(this.game);
       }, (error: HttpErrorResponse) => {
         if (error.status === 401) {

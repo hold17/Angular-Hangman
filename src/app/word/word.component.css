@@ -18,3 +18,13 @@
 .list-inline {
   width: 470px;
 }
+.greenText{
+  color: #51a351;
+  text-emphasis: greenyellow;
+}
+
+.redText{
+  color: #a3210d;
+  text-emphasis: #ff233e;
+}
+

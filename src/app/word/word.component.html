@@ -8,7 +8,12 @@
   <div class="secretWord" *ngIf="game.hasGameBegun">
     {{game.visibleWord}}
   </div>
-  <div><p class="alert"> {{gameStatus}}</p>
+  <div>
+    <p class="alert">
+      <!--Nedenstående kunne gøres med NGclass men er fravalgt-->
+      <span class="redText">{{redText}}</span>
+      <span class="greenText">{{greenText}}</span>
+      {{gameStatus}}</p>
     <div>
       <div>
         <button class="btn btn-primary" (click)="onStartGameClicked()" *ngIf="!game.hasGameBegun || game.isGameOver">Start game</button>

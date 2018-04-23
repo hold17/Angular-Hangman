@@ -2,7 +2,6 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {AuthService} from '../../auth.service';
 import {Router} from '@angular/router';
-import {ServerService} from '../../server.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
 import {Provider, SocialLoginService} from 'ngx-social-login';
@@ -31,7 +30,7 @@ export class LoginComponent implements OnInit {
               private _service: SocialLoginService) { }
 
   ngOnInit() {
-    console.log( localStorage.getItem('token'));
+    // console.log( localStorage.getItem('token'));
     if (this.authService.isAuthenticated()) {
       this.router.navigate(['/game']);
     }
@@ -41,8 +40,8 @@ export class LoginComponent implements OnInit {
     this.submitted = true;
     this.user.username = this.signupForm.value.username;
     this.user.password = this.signupForm.value.password;
-    console.log(this.user.username);
-    console.log(this.user.password);
+    // console.log(this.user.username);
+    // console.log(this.user.password);
 
     // console.log(this.signupForm);
     this.authService.login(this.user.username, this.user.password).subscribe(

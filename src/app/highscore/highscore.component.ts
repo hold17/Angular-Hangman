@@ -1,18 +1,19 @@
-import {AfterViewInit, Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Location} from '@angular/common';
-import { ServerService } from '../../server.service';
+import {ServerService} from '../../server.service';
 import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-highscore',
-  templateUrl: './highscore.component.html'
-})
-export class HighscoreComponent {
+  templateUrl: './highscore.component.html',
+  styleUrls: ['./highscore.component.css']
 
-  rows: any = [{
-    playerName: ''
-  }];
-    constructor(private location: Location, private server: ServerService) {
+})
+export class HighscoreComponent implements OnInit {
+  number = 0;
+  rows: any = [{}];
+  constructor(private location: Location, private server: ServerService) {}
+  ngOnInit() {
     console.log(this.rows);
     console.log('Highscores');
     this.server.getHighscores().subscribe(
@@ -28,10 +29,7 @@ export class HighscoreComponent {
     console.log('Rows:');
     console.log(this.rows);
   }
-
-
   backClicked() {
     this.location.back();
   }
-
 }

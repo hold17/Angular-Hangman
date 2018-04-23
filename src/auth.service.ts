@@ -29,7 +29,7 @@ export class AuthService {
       }
     ).map((promise: Promise<JSON>) => {
       const token = promise;
-      console.log(token);
+      // console.log(token);
       localStorage.setItem('token', JSON.stringify(token));
 
     });

@@ -10,10 +10,10 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let row of rows">
-      <th scope="row">{{row.id}}</th>
+    <tr *ngFor="let row of rows;let i = index" [attr.data-index]="i">
+      <th scope="row">{{'#'+i}}</th>
       <td>{{row.playerName}}</td>
-      <td>{{row.time | timeFormat}}</td>
+      <td>{{row.time}}</td>
       <td>{{row.correctWord}}</td>
       <td>{{row.score}}</td>
     </tr>

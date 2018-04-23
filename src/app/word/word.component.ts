@@ -16,7 +16,7 @@ export class WordComponent implements OnInit {
   buttonLetters: string[];
   images: string[];
   letters: string[];
-  game: Array<any>;
+  game: any;
   imageIndex: number;
   private previousGameAvailabe: boolean;
   private reloadedPreviousGame: boolean;
@@ -141,7 +141,11 @@ export class WordComponent implements OnInit {
         // console.log('This is a get game response:');
         this.previousGameAvailabe = true;
         this.toastr.success('Previous game loaded.');
-        this.gameStatus = 'Welcome back, continue where you left off!';
+        if (this.game.gameHasBeenWon || this.game.gameHasBeenLost) {
+          this.gameStatus = 'You completed your last game, click to start a new one!';
+        } else {
+          this.gameStatus = 'Welcome back, continue where you left off!';
+        }
         // console.log(this.game);
       }, (error: HttpErrorResponse) => {
         if (error.status === 401) {

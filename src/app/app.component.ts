@@ -1,5 +1,4 @@
 import {Component, NgZone} from '@angular/core';
-import {ElectronService, NgxElectronModule} from 'ngx-electron';
 
 
 @Component({

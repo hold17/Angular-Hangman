@@ -13,6 +13,7 @@
     "electron": "electron .",
     "electron-build": "ng build --prod && electron .",
     "package-win": "electron-packager . Hangman --overwrite --platform=win32 --arch=ia32",
+    "package-mac": "electron-packager . Hangman --overwrite --platform=darwin --arch=x64",
     "package-linux": "electron-packager . Hangman --platform=linux --arch=x64 --overwrite"
   },
   "private": true,
@@ -27,8 +28,10 @@
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
     "ajv": "^6.4.0",
+    "angular-font-awesome": "^3.1.2",
     "bootstrap": "^4.0.0",
     "core-js": "^2.4.1",
+    "font-awesome": "^4.7.0",
     "jasminewd2": "^2.2.0",
     "jquery": "^3.3.1",
     "ngx-loading": "^1.0.14",

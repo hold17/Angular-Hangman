@@ -88,4 +88,9 @@ export class LoginComponent implements OnInit {
     } );
 
   }
+
+  goTohighScores() {
+    this.router.navigate(['/highscores']);
+
+  }
 }

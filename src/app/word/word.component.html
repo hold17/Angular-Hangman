@@ -16,13 +16,13 @@
       {{gameStatus}}</p>
     <div>
       <div>
-        <button class="btn btn-primary" (click)="onStartGameClicked()" *ngIf="!game.hasGameBegun || game.isGameOver">Start game</button>
-        <button class="btn btn-secondary" (click)="onHighScoresClicked()" *ngIf="!game.hasGameBegun || game.isGameOver">Highscores</button>
+        <button class="btn btn-success mainbuttons" (click)="onStartGameClicked()" *ngIf="!game.hasGameBegun || game.isGameOver">Start <i class="fa fa-gamepad"></i></button>
+        <button class="btn btn-secondary mainbuttons" (click)="onHighScoresClicked()" *ngIf="!game.hasGameBegun || game.isGameOver">Highscores</button>
       </div>
       <div class="letterButtons" *ngIf="game.hasGameBegun || !game.isGameOver">
         <ul class="list-inline">
           <li id="{{bLetter}}" class="list-inline-item" *ngFor="let bLetter of buttonLetters;" (click)="onLetterClick(bLetter);">
-            <button class="btn btn-primary letter-button" *ngIf="bLetter !== checkLetter(bLetter)"> <!--TODO: FIX -->
+            <button class="btn btn-primary letter-button" [disabled]="game.usedLetters.indexOf(bLetter) >= 0">
               {{bLetter}}</button>
           </li>
         </ul>

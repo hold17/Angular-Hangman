@@ -37,21 +37,21 @@ export class WordComponent implements OnInit {
     this.game =  <any>{gameHasBeenLost: false,
       gameHasBeenWon: false,
       hasGameBegun: false,
-      isGameOver: false,
+      isGameOver: true,
       lastGuessedLetterIsCorrect: false,
       score: 0,
       time: '',
       usedLetters: [],
       visibleWord: '',
-      wrongLettersCount: 0
+      wrongLettersCount: 0,
+      finalGuessWord: ''
     };
     this.newGame(); // Initialiserer spillet
 
   }
 
   onLetterClick(letter: string) {
-    document.getElementById(letter).hidden = true;
-    this.loading = true;
+    this.game.usedLetters.push(letter);
     this.serverService.guessLetter(letter).subscribe((res: Response) => {
       this.game = res;
       if (this.game.gameHasBeenLost) {
@@ -63,6 +63,7 @@ export class WordComponent implements OnInit {
         this.redText = '';
         this.greenText = 'Great job, ';
         this.gameStatus = 'you won the game!';
+        this.game.visibleWord = this.game.finalGuessWord;
         // this.imageIndex = -1;
       } else if (this.game.lastGuessedLetterIsCorrect === false) {
         this.greenText = '';
@@ -76,13 +77,10 @@ export class WordComponent implements OnInit {
         this.gameStatus = letter + ' was pressed';
         // console.log('Correct letter ' + letter + ' was pressed ' + this.game.lastGuessedLetterIsCorrect);
       }
-      this.loading = false;
     }, (error: HttpErrorResponse) => {
-      this.toastr.error('An error occurred, check the console.');
       if (error.status === 500) {
         this.router.navigate([WordComponent]); // Midlertidig work-around TODO: FIX
       }
-      this.loading = false;
       console.log(error);
     });
   }
@@ -129,11 +127,6 @@ export class WordComponent implements OnInit {
     // }
   }
 
-  checkLetter(letter: string) {
-    for (let i = 0; i < this.game.usedLetters.length; i++) {
-      if (letter === this.game.usedLetters[i]) {return letter; }
-    }
-  }
   newGame() {
     this.serverService.getGame().subscribe(
       (response) => {

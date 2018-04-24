@@ -1,7 +1,14 @@
 <div class="card-header">
-  <h1>Hangman</h1>
-  <p>Developed for course 62596 and 02363 DTU Diplom</p>
-  <div *ngIf="auth.loggedIn == true">
-    <button class="btn btn-danger" (click)="logout()">Logout</button>
+  <div class="mx-auto" style="width: 400px; margin-top: 0px; text-align: center;">
+    <h1>Hangman</h1>
+    <p>Developed for course 62596 and 02363 DTU Diplom</p>
+  </div>
+  <div style="margin-top: -30px; padding-bottom: 10px;">
+    <div class="float-right" *ngIf="auth.loggedIn == true" >
+      <button class="btn btn-danger" (click)="logout()">Logout <fa name ="fas fa-sign-out"></fa></button>
+    </div>
+    <div>
+      <button class="btn btn-primary" (click)="goHome()"><fa name="fas fa-home"></fa> Home</button>
+    </div>
   </div>
 </div>

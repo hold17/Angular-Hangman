@@ -16,3 +16,7 @@ input.ng-invalid.ng-touched {
   padding-top: 10px;
   padding-bottom: 10px;
 }
+.btn-link {
+  margin: 20px;
+  padding: 10px;
+}

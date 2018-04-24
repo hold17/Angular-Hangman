@@ -16,6 +16,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastrModule} from 'ngx-toastr';
 import {NgxSocialLoginModule} from 'ngx-social-login';
 import {TimePipe} from './highscore/time.pipe';
+import {AngularFontAwesomeModule} from 'angular-font-awesome';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,6 +33,7 @@ import {TimePipe} from './highscore/time.pipe';
     HttpClientModule,
     AppRoutingModule,
     LoadingModule,
+    AngularFontAwesomeModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot({
       timeOut: 2000

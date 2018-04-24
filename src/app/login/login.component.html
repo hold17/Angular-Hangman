@@ -9,16 +9,16 @@
       </div>
       <!---->
       <!--<div class="row">-->
-        <!--<div class="col-xs-6 col-sm-6 col-md-6">-->
-          <!--<a class="btn btn-lg btn-primary btn-block"(click)="loginWithFacebook()">Facebook</a>-->
-        <!--</div>-->
-        <!--<div class="col-xs-6 col-sm-6 col-md-6" (click)="loginWithGoogle()">-->
-          <!--<a class="btn btn-lg btn-info btn-block">Google</a>-->
-        <!--</div>-->
+      <!--<div class="col-xs-6 col-sm-6 col-md-6">-->
+      <!--<a class="btn btn-lg btn-primary btn-block"(click)="loginWithFacebook()">Facebook</a>-->
+      <!--</div>-->
+      <!--<div class="col-xs-6 col-sm-6 col-md-6" (click)="loginWithGoogle()">-->
+      <!--<a class="btn btn-lg btn-info btn-block">Google</a>-->
+      <!--</div>-->
       <!--</div>-->
       <!--<div class="login-or">-->
-        <!--<hr class="hr-or">-->
-        <!--<span class="span-or">or</span>-->
+      <!--<hr class="hr-or">-->
+      <!--<span class="span-or">or</span>-->
       <!--</div>-->
     </div>
     <div class="row">
@@ -27,7 +27,7 @@
         <div class="form-group has-danger">
           <label class="sr-only">username</label>
           <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at"></i></div>
+            <div class="input-group-addon" style="width: 0rem"><i class="fa fa-at"></i></div>
             <input type="text"
                    ngModel
                    name="username"
@@ -38,9 +38,9 @@
       </div>
       <div class="col-md-3">
         <div class="form-control-feedback">
-                        <span class="help-block" *ngIf="!username.valid">
-                            <i class="fa fa-close"></i> Please input your study number
-                        </span>
+            <span class="help-block" *ngIf="!username.valid">
+                <i class="fa fa-close"></i> Please input your study number
+            </span>
         </div>
       </div>
     </div>
@@ -50,7 +50,7 @@
         <div class="form-group">
           <label class="sr-only" for="password">Password</label>
           <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-            <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key"></i></div>
+            <div class="input-group-addon" style="width: 0rem"><i class="fa fa-key"></i></div>
             <input type="password"
                    ngModel name="password"
                    class="form-control" id="password"
@@ -61,9 +61,9 @@
       </div>
       <div class="col-md-3">
         <div class="form-control-feedback">
-                        <span class="help-block" *ngIf="!password.valid && password.touched">
-                        Please input a password
-                        </span>
+            <span class="help-block" *ngIf="!password.valid && password.touched">
+              Please input a password
+            </span>
         </div>
       </div>
     </div>
@@ -79,9 +79,10 @@
       <div class="col-md-3"></div>
       <div class="col-md-6">
         <button type="submit" class="btn btn-primary" data-style="expand-left" [disabled]="!f.valid && f.touched">
-          <i class="fa fa-sign-in"></i>Login</button>
+          Login <i class="fa fa-sign-in"></i></button>
       </div>
     </div>
   </form>
+  <button class="btn btn-link" (click)="goTohighScores()">Highscores</button>
 </div>
 

@@ -10,6 +10,10 @@
   font-size: 16px;
   padding: 5px 0px;
 }
+.mainbuttons{
+  width: 120px;
+  margin: 0 10px;
+}
 .secretWord {
   margin-top: 20px;
   margin-bottom: 40px;

@@ -14,9 +14,7 @@ export class ServerService  {
   constructor(private http: HttpClient) {}
 
   getHighscores() {
-    this.token = JSON.parse(localStorage.getItem('token')).access_token;
-    return this.http.get('https://www.localghost.dk/hangman/api/hangman/highscores',
-      {headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.token)}
+    return this.http.get('https://www.localghost.dk/hangman/api/hangman/highscores'
     ).map((res: Response) => {
       // console.log(res);
       return res;

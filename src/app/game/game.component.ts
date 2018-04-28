@@ -6,10 +6,10 @@ import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-word',
-  templateUrl: './word.component.html',
-  styleUrls: ['./word.component.css']
+  templateUrl: './game.component.html',
+  styleUrls: ['./game.component.css']
 })
-export class WordComponent implements OnInit {
+export class GameComponent implements OnInit {
   loading: boolean;
   index: number;
   gameStatus: string;
@@ -22,6 +22,7 @@ export class WordComponent implements OnInit {
   private reloadedPreviousGame: boolean;
   redText: string;
   greenText: string;
+  sessionExpired = false;
 
   constructor(private serverService: ServerService, private router: Router, private toastr: ToastrService) {}
   ngOnInit() {
@@ -79,7 +80,7 @@ export class WordComponent implements OnInit {
       }
     }, (error: HttpErrorResponse) => {
       if (error.status === 500) {
-        this.router.navigate([WordComponent]); // Midlertidig work-around TODO: FIX
+        this.router.navigate([GameComponent]); // Denne fejl kan stoppe hjemmesiden med at virke indtil refresh, derfor reloades
       }
       console.log(error);
     });
@@ -97,7 +98,7 @@ export class WordComponent implements OnInit {
         // this.game = this.serverService.getJson(); // TODO: Find the correct way to do this.
         console.log(this.game);
         this.loading = false;
-        this.gameStatus = 'You can start guessing the new word now!';
+        this.gameStatus = 'You can start guessing the new game now!';
         this.greenText = '';
         this.redText = '';
       }, (error: HttpErrorResponse) => {
@@ -119,12 +120,6 @@ export class WordComponent implements OnInit {
         );
       }
     );
-    if (this.previousGameAvailabe && this.reloadedPreviousGame) {
-    }
-    // if (this.game.isGameOver) {
-    //   this.serverService.startGame().subscribe();
-    //   this.newGame();
-    // }
   }
 
   newGame() {
@@ -143,13 +138,14 @@ export class WordComponent implements OnInit {
       }, (error: HttpErrorResponse) => {
         if (error.status === 401) {
           this.toastr.warning('Your session has expired, please log out, then log in ');
+          this.gameStatus = '';
+          this.redText = 'Your session has expired, please click log out, then log in';
+          this.sessionExpired = true;
         } else {
           this.toastr.error('An error occurred, check the console');
         }
-        console.log(error);
-        console.log(error.status.toString());
-
-        console.log(error.error.error_message);
+        const txtError = 'Something went wront statuscode: ' + error.status.toString() + ', your session is likely expired';
+        if (error.status === 401) { console.log(txtError); } else {console.log(error); }
         this.serverService.restartGame().subscribe(
           (restartResponse) => {
             console.log('This is a restart response:');
@@ -157,7 +153,8 @@ export class WordComponent implements OnInit {
             console.log(restartResponse);
             this.reloadedPreviousGame = true;
           }, (restartError: HttpErrorResponse) => {
-            console.log(restartError);
+            // console.log(restartError);
+            console.log(txtError);
           }
         );
       }

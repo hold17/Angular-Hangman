@@ -6,7 +6,6 @@ import {Injectable} from '@angular/core';
 @Injectable()
 export class AuthService {
   loggedIn = false;
-  loginSocial = false;
   constructor (private http: HttpClient) {}
 
   isAuthenticated() {

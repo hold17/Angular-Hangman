@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {ServerService} from '../../server.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
@@ -163,4 +163,16 @@ export class GameComponent implements OnInit {
     this.gameStatus = 'Welcome to hangman, start a game or see the latest highscores!';
   }
 
+  keyPressed(bLetter) {
+    for (let i = 0; i < this.buttonLetters.length; i++) {
+      if (this.buttonLetters[i] === bLetter) { return true; }
+    }
+  }
+
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    if (this.keyPressed(event.key)) {
+      this.onLetterClick(event.key);
+    }
+  }
 }

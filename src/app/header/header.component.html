@@ -1,7 +1,11 @@
+
 <div class="card-header">
   <div class="mx-auto" style="width: 400px; margin-top: 0px; text-align: center;">
     <h1>Hangman</h1>
     <p>Developed for course 62596 and 02363 DTU Diplom</p>
+    <div>
+      <p *ngIf="auth.loggedIn && name.length>0">Welcome back, {{name}}</p>
+    </div>
   </div>
   <div style="margin-top: -30px; padding-bottom: 10px;">
     <div class="float-right" *ngIf="auth.loggedIn == true" >

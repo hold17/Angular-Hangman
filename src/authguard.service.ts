@@ -3,7 +3,6 @@ import {Observable} from 'rxjs/Observable';
 import {Injectable} from '@angular/core';
 import {AuthService} from './auth.service';
 
-
 @Injectable()
 export class AuthguardService implements CanActivate, CanActivateChild {
 

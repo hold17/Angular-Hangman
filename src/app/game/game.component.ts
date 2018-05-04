@@ -7,7 +7,7 @@ import {ToastrService} from 'ngx-toastr';
 @Component({
   selector: 'app-word',
   templateUrl: './game.component.html',
-  styleUrls: ['./game.component.css']
+  styleUrls: ['./game.component.css'],
 })
 export class GameComponent implements OnInit {
   loading: boolean;
@@ -95,7 +95,6 @@ export class GameComponent implements OnInit {
         this.game = response;
         // console.log('This is a put game response:');
         this.previousGameAvailabe = true;
-        // this.game = this.serverService.getJson(); // TODO: Find the correct way to do this.
         console.log(this.game);
         this.loading = false;
         this.gameStatus = 'You can start guessing the new game now!';
@@ -154,7 +153,6 @@ export class GameComponent implements OnInit {
             this.reloadedPreviousGame = true;
           }, (restartError: HttpErrorResponse) => {
             // console.log(restartError);
-            console.log(txtError);
           }
         );
       }

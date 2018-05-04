@@ -1,10 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
-interface UserResponse {
-  studynumber: string;
-  password: string;
-}
+// Overvej at bruge intercepter
 
 @Injectable()
 export class ServerService  {

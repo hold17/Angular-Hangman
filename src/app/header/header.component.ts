@@ -6,7 +6,8 @@ import {ToastrService} from 'ngx-toastr';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: []
+  styleUrls: [],
+  providers: []
 })
 export class HeaderComponent  {
   constructor(public auth: AuthService, private router: Router, private toastr: ToastrService) {}

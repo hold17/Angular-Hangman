@@ -36,6 +36,7 @@ import {AngularFontAwesomeModule} from 'angular-font-awesome';
       timeOut: 2000
     }) // ToastrModule added
   ],
+  // Alle mine services ligger her da der ikke er nogen service som udelukkende bliver anvendt et sted
   providers: [AuthguardService, AuthService, ServerService],
   bootstrap: [AppComponent]
 })

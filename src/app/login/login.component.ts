@@ -46,10 +46,7 @@ export class LoginComponent implements OnInit, DoCheck {
     this.submitted = true;
     this.user.username = this.signupForm.value.username;
     this.user.password = this.signupForm.value.password;
-    // console.log(this.user.username);
-    // console.log(this.user.password);
 
-    // console.log(this.signupForm);
     this.authService.login(this.user.username, this.user.password).subscribe(
       (response) => {
         this.submitted = false;

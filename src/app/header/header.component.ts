@@ -32,9 +32,6 @@ export class HeaderComponent implements OnInit {
     this.logout();
   }
 
-  // forcedLogoutModalRef: BsModalRef;
-
-
   logout() {
     this.auth.logoutRemoveToken();
     this.auth.loggedIn = false;

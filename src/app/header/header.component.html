@@ -9,26 +9,36 @@
   </div>
   <div style="margin-top: -30px; padding-bottom: 10px;">
     <div class="float-right" *ngIf="auth.loggedIn == true" >
-      <button class="btn btn-danger" (click)="openModal(manualLogout)">Logout <fa name ="fas fa-sign-out"></fa></button>
+      <button id="logout" class="btn btn-danger" (click)="logout()">Logout <fa name ="fas fa-sign-out"></fa></button>
     </div>
-    <div>
+    <div *ngIf="auth.loggedIn">
       <button class="btn btn-primary" (click)="goHome()"><fa name="fas fa-home"></fa> Home</button>
     </div>
   </div>
 </div>
-
-
-<ng-template #manualLogout>
-  <div class="modal-body text-center">
-    <p>Do you want to logout?</p>
-    <button type="button" class="btn btn-default" (click)="logout()" >Yes <fa name ="fas fa-check"></fa></button>
-    <button type="button" class="btn btn-primary" (click)="closeModal()" >No <fa name ="fas fa-ban"></fa></button>
+<div *ngIf="isModalShown" [config]="{ show: true }" (onHidden)="onHidden()" bsModal #logoutModal="bs-modal"
+     class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-auto-name">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 id="dialog-auto-name" class="modal-title pull-left">Your session has expired</h4>
+      </div>
+      <div class="modal-body">
+        <p>Your session has expired, and you have to logout</p>
+        <div class="text-center">
+          <button class="btn btn-default" (click)="onHidden()" >Logout</button>
+        </div>
+      </div>
+    </div>
   </div>
-</ng-template>
-<ng-template #forcedLogout *ngIf="auth.sessionExpired">
-  <div class="modal-body text-center">
-    <p>Your session has expired, and you have to log out and in again</p>
-    <button type="button" class="btn btn-default" (click)="logout()" >Yes <fa name ="fas fa-check"></fa></button>
-  </div>
-</ng-template>
+</div>
+
+<!--<ng-template #manualLogout>-->
+<!--<div class="modal-body text-center">-->
+<!--<p *ngIf="sessionExpired">Your session has expired and you have to logout</p>-->
+<!--<p *ngIf="!sessionExpired">Do you want to logout?</p>-->
+<!--<button type="button" class="btn btn-default" (click)="logout()" >Logout <fa name ="fas fa-check"></fa></button>-->
+<!--<button type="button" class="btn btn-primary" (click)="closeModal()" *ngIf="!sessionExpired">No <fa name ="fas fa-ban"></fa></button>-->
+<!--</div>-->
+<!--</ng-template>-->
 

@@ -6,9 +6,10 @@ import {AuthService} from './auth.service';
 @Injectable()
 export class AuthguardService implements CanActivate, CanActivateChild {
 
-  constructor (private authService: AuthService, private router: Router) {}
+  constructor (private authService: AuthService, private router: Router) {  }
   canActivate(route: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    // this.authService.validate(); //TODO: Test
     return this.authService.isAuthenticated().then(
       (authenticated: boolean) => {
         if (authenticated && !this.authService.sessionExpired) {

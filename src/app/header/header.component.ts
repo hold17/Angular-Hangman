@@ -47,7 +47,7 @@ export class HeaderComponent {
     this.modalRef = this.modalService.show(template);
   }
 
-  closeModal(template: TemplateRef<any>) {
+  closeModal() {
     this.modalRef.hide();
   }
 }

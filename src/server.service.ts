@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 // Overvej at bruge intercepter
 
 @Injectable()
-export class ServerService  {
+export class ServerService implements OnInit {
   token: string;
   json;
 
@@ -57,6 +57,10 @@ export class ServerService  {
       // console.log(res);
       return res;
     });
+
+  }
+
+  ngOnInit(): void {
 
   }
 

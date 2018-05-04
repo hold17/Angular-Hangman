@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map';
 import {Injectable} from '@angular/core';
 
 @Injectable()
-export class AuthService {
+export class AuthService  {
   sessionExpired = false;
   loggedIn = false;
   constructor (private http: HttpClient) {}

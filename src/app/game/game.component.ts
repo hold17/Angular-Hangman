@@ -3,7 +3,7 @@ import {ServerService} from '../../server.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
-import {AuthService} from '../../auth.service';
+import {BsModalRef} from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-word',
@@ -14,6 +14,8 @@ export class GameComponent implements OnInit {
   loading: boolean;
   redText: string;
   greenText: string;
+  sessionExpired = false;
+  modalRef: BsModalRef;
 
   gameStatus: string;
   buttonLetters: string[];
@@ -24,7 +26,7 @@ export class GameComponent implements OnInit {
   private previousGameAvailabe: boolean;
   private reloadedPreviousGame: boolean;
 
-  constructor(private serverService: ServerService, private router: Router, private toastr: ToastrService, private authService: AuthService) {}
+  constructor(private serverService: ServerService, private router: Router, private toastr: ToastrService) {}
   ngOnInit() {
     this.loading = false;
     this.imageIndex = 0;
@@ -47,6 +49,7 @@ export class GameComponent implements OnInit {
       wrongLettersCount: 0,
       finalGuessWord: ''
     };
+
     this.newGame(); // Initialiserer spillet
 
   }
@@ -139,7 +142,7 @@ export class GameComponent implements OnInit {
           this.toastr.warning('Your session has expired, please log out, then log in ');
           this.gameStatus = '';
           this.redText = 'Your session has expired, please click log out, then log in';
-          this.authService.sessionExpired = true;
+          this.sessionExpired = true;
           // this.openModal(template);
         } else {
           this.toastr.error('An error occurred, check the console');

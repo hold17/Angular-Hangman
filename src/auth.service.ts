@@ -7,7 +7,6 @@ import {Injectable} from '@angular/core';
 export class AuthService {
   loggedIn = false;
   constructor (private http: HttpClient) {}
-
   isAuthenticated() {
     const promise = new Promise(
       (resolve, reject) => {

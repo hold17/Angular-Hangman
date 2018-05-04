@@ -15,6 +15,7 @@ import {LoadingModule} from 'ngx-loading';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToastrModule} from 'ngx-toastr';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
+import {ModalModule} from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import {AngularFontAwesomeModule} from 'angular-font-awesome';
     GameComponent,
     LoginComponent,
     HighscoreComponent,
-    HeaderComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -30,6 +31,7 @@ import {AngularFontAwesomeModule} from 'angular-font-awesome';
     HttpClientModule,
     AppRoutingModule,
     LoadingModule,
+    ModalModule.forRoot(),
     AngularFontAwesomeModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot({

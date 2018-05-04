@@ -30,3 +30,21 @@
     </div>
   </div>
 </div>
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Logout</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Are you sure you want to logout?
+    <br>
+
+    <div align="center">
+      <br>
+      <button class="btn btn-success" (click)="logout()">Yes <fa name ="fas fa-check"></fa></button>
+      <button class="btn btn-danger" (click)="closeModal()">No <fa name ="fas fa-ban"></fa></button>
+    </div>
+  </div>
+</ng-template>

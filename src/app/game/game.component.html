@@ -11,8 +11,8 @@
   <div>
     <p class="alert">
       <!--Nedenstående kunne gøres med NGclass men er fravalgt-->
-      <span class="redText"><strong>{{redText}}</strong></span>
-      <span class="greenText"><strong>{{greenText}}</strong></span>
+      <span class="redText" *ngIf="redText.length>0"><strong>{{redText}}</strong></span>
+      <span class="greenText" *ngIf="greenText.length>0"><strong>{{greenText}}</strong></span>
       {{gameStatus}}</p>
     <div>
       <div>

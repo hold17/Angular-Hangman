@@ -13,7 +13,7 @@ export class GameComponent implements OnInit {
   loading: boolean;
   redText: string;
   greenText: string;
-  sessionExpired = false;
+  sessionExpired: boolean;
 
   gameStatus: string;
   buttonLetters: string[];
@@ -26,6 +26,9 @@ export class GameComponent implements OnInit {
 
   constructor(private serverService: ServerService, private router: Router, private toastr: ToastrService) {}
   ngOnInit() {
+    this.sessionExpired = false;
+    this.greenText = '';
+    this.redText = '';
     this.loading = false;
     this.imageIndex = 0;
     this.previousGameAvailabe = false;

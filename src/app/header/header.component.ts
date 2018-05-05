@@ -1,9 +1,8 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../auth.service';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {Observable} from 'rxjs/Observable';
-import {ModalDirective} from 'ngx-bootstrap';
 import {TimerObservable} from 'rxjs/observable/TimerObservable';
 import {HttpErrorResponse} from '@angular/common/http';
 
@@ -14,20 +13,31 @@ import {HttpErrorResponse} from '@angular/common/http';
 export class HeaderComponent implements OnInit {
   constructor(public auth: AuthService, private router: Router, private toastr: ToastrService) {}
   name: string;
-  sessionExpired = false;
-  @ViewChild('autoShownModal') autoShownModal: ModalDirective;
-  isModalShown = false;
+  sessionExpired: boolean;
+  isModalShown: boolean;
   // laver en observable til at tjekke den token vi bruger, det skal bruges til at sætte navnet for brugeren. Startes i OnInit
-  observeToken = new Observable((observer) => {
-    observer.next(localStorage.getItem('token'));
-    observer.complete();
-  });
-  showModal(): void {
-    this.isModalShown = true;
-  }
-  onHidden(): void {
+  observeToken;
+  ngOnInit(): void {
+    this.sessionExpired = false;
     this.isModalShown = false;
-    this.logout();
+    this.observeToken = new Observable((observer) => {
+      observer.next(localStorage.getItem('token'));
+      observer.complete();
+    });
+    // Når man har været på siden i et stykke tid, her vil den automatisk vise en modal, som logger dig ud ved klik.
+    TimerObservable.create(9000, 10000).subscribe(() => {
+        const token = localStorage.getItem('token');
+        if (token !== null) {
+          this.auth.validate(token).subscribe((response) => {}, (error: HttpErrorResponse) => {
+            console.log(error);
+            if (error.status === 401 && this.auth.loggedIn) {
+              this.showModal();
+              this.sessionExpired = true;
+            }
+          });
+        }
+      }
+    );
   }
 
   logout() {
@@ -51,21 +61,12 @@ export class HeaderComponent implements OnInit {
       return true;
     }
   }
-
-  ngOnInit(): void {
-    // Når man har været på siden i et stykke tid, her vil den automatisk vise en modal, som logger dig ud ved klik.
-    TimerObservable.create(9000, 10000).subscribe(() => {
-        const token = localStorage.getItem('token');
-        if (token !== null) {
-        this.auth.validate(token).subscribe((response) => {}, (error: HttpErrorResponse) => {
-          console.log(error);
-          if (error.status === 401 && this.auth.loggedIn) {
-            this.showModal();
-            this.sessionExpired = true;
-          }
-        });
-        }
-      }
-    );
+  showModal(): void {
+    this.isModalShown = true;
   }
+  onHidden(): void {
+    this.isModalShown = false;
+    this.logout();
+  }
+
 }

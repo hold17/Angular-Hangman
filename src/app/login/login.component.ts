@@ -12,22 +12,19 @@ import {ToastrService} from 'ngx-toastr';
 })
 export class LoginComponent implements OnInit, DoCheck {
   @ViewChild('f') signupForm: NgForm;
-  submitted = false;
+  submitted: boolean;
   inputError: boolean;
-  user = {
-    username: '',
-    password: ''
-  };
-  httpMessage = {
-    bold: '',
-    text: ''
-  };
+  user: any;
+  httpMessage: any;
 
   constructor(private authService: AuthService,
               private router: Router,
               private toastr: ToastrService) { }
 
   ngOnInit() {
+    this.submitted = false;
+    this.user = {username: '', password: ''};
+    this.httpMessage = {bold: '', text: ''};
     // console.log( localStorage.getItem('token'));
     if (this.authService.isAuthenticated()) {
       this.router.navigate(['/game']);

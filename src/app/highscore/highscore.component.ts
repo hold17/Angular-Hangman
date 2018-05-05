@@ -8,8 +8,7 @@ import {HttpErrorResponse} from '@angular/common/http';
   templateUrl: './highscore.component.html',
 })
 export class HighscoreComponent implements OnInit {
-  number = 0;
-  rows: any = [{}];
+  rows: any;
   constructor(private location: Location, private server: ServerService) {}
   ngOnInit() {
     console.log(this.rows);

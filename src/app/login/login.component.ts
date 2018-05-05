@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit, DoCheck {
       this.router.navigate(['/game']);
     }
   }
-  ngDoCheck() { // Det her løser det problem den anden gruppe snakkede om med Formen der blev ved med at være rød.
+  ngDoCheck() { // Det her løser det problem den anden gruppe snakkede om med formen der blev ved med at være rød.
     this.signupForm.valueChanges.subscribe((response) => {
       this.user = response;
     });

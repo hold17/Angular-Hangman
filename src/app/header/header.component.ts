@@ -1,9 +1,9 @@
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {AuthService} from '../../auth.service';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {Observable} from 'rxjs/Observable';
-import {BsModalRef, BsModalService, ModalDirective} from 'ngx-bootstrap';
+import {ModalDirective} from 'ngx-bootstrap';
 import {TimerObservable} from 'rxjs/observable/TimerObservable';
 import {HttpErrorResponse} from '@angular/common/http';
 
@@ -12,14 +12,12 @@ import {HttpErrorResponse} from '@angular/common/http';
   templateUrl: './header.component.html',
 })
 export class HeaderComponent implements OnInit {
-  constructor(public auth: AuthService, private router: Router, private toastr: ToastrService,
-              private modalService: BsModalService) {}
+  constructor(public auth: AuthService, private router: Router, private toastr: ToastrService) {}
   name: string;
-  modalRef: BsModalRef;
   sessionExpired = false;
   @ViewChild('autoShownModal') autoShownModal: ModalDirective;
   isModalShown = false;
-  // laver en observable til at tjekke den token vi bruger, det skal bruges til at sætte navnet for brugeren
+  // laver en observable til at tjekke den token vi bruger, det skal bruges til at sætte navnet for brugeren. Startes i OnInit
   observeToken = new Observable((observer) => {
     observer.next(localStorage.getItem('token'));
     observer.complete();
@@ -55,7 +53,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Når man har været på siden i et stykke tid, her skal den automatisk foreslå at du logger ud når din session løber ud
+    // Når man har været på siden i et stykke tid, her vil den automatisk vise en modal, som logger dig ud ved klik.
     TimerObservable.create(9000, 10000).subscribe(() => {
         const token = localStorage.getItem('token');
         if (token !== null) {

@@ -3,7 +3,6 @@ import {ServerService} from '../../server.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
-import {BsModalRef} from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-word',
@@ -15,7 +14,6 @@ export class GameComponent implements OnInit {
   redText: string;
   greenText: string;
   sessionExpired = false;
-  modalRef: BsModalRef;
 
   gameStatus: string;
   buttonLetters: string[];
@@ -51,45 +49,45 @@ export class GameComponent implements OnInit {
     };
 
     this.newGame(); // Initialiserer spillet
-
   }
 
-  onLetterClick(letter: string) {
-    this.game.usedLetters.push(letter);
-    this.serverService.guessLetter(letter).subscribe((res: Response) => {
-      this.game = res;
-      if (this.game.gameHasBeenLost) {
-        this.greenText = '';
-        this.redText = 'You have lost, ';
-        this.gameStatus = 'try again';
-        // this.imageIndex = -1;
-      } else if (this.game.gameHasBeenWon) {
-        this.redText = '';
-        this.greenText = 'Great job, ';
-        this.gameStatus = 'you won the game!';
-        this.game.visibleWord = this.game.finalGuessWord;
-        // this.imageIndex = -1;
-      } else if (this.game.lastGuessedLetterIsCorrect === false) {
-        this.greenText = '';
-        this.redText = 'Wrong letter ';
-        this.gameStatus = (letter + ' was pressed ');
-        // console.log('Wrong letter ' + letter + ' was pressed' + this.game.lastGuessedLetterIsCorrect);
-        // this.imageIndex++;
-      } else {
-        this.redText = '';
-        this.greenText = 'Correct letter ';
-        this.gameStatus = letter + ' was pressed';
-        // console.log('Correct letter ' + letter + ' was pressed ' + this.game.lastGuessedLetterIsCorrect);
+  newGame() {
+    this.serverService.getGame().subscribe(
+      (response) => {
+        this.game = response;
+        this.previousGameAvailabe = true;
+        this.toastr.success('Previous game loaded.');
+        if (this.game.gameHasBeenWon || this.game.gameHasBeenLost) {
+          this.gameStatus = 'You completed your last game, click to start a new one!';
+        } else {
+          this.gameStatus = 'Welcome back, continue where you left off!';
+        }
+      }, (error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          // This if-content should be unnecessary as automatic logout has been implemented.
+          this.toastr.warning('Your session has expired, please log out, then log in ');
+          this.gameStatus = '';
+          this.redText = 'Your session has expired, please click log out, then log in';
+          this.sessionExpired = true;
+        } else {
+          this.toastr.error('An error occurred, check the console');
+        }
+        const txtError = 'Something went wront statuscode: ' + error.status.toString() + ', your session is likely expired';
+        if (error.status === 401) { console.log(txtError); } else {console.log(error); }
+        this.serverService.restartGame().subscribe(
+          (restartResponse) => {
+            console.log('This is a restart response:');
+            this.game = restartResponse;
+            console.log(restartResponse);
+            this.reloadedPreviousGame = true;
+          }, (restartError: HttpErrorResponse) => {
+            // console.log(restartError);
+          }
+        );
       }
-    }, (error: HttpErrorResponse) => {
-      if (error.status === 500) {
-        this.router.navigate([GameComponent]); // Denne fejl kan stoppe hjemmesiden med at virke indtil refresh, derfor reloades
-      }
-      console.log(error);
-    });
-  }
-  onHighScoresClicked() {
-    this.router.navigate(['/highscores']);
+    );
+    this.buttonLetters = this.letters;
+    this.gameStatus = 'Welcome to hangman, start a game or see the latest highscores!';
   }
   onStartGameClicked() {
     this.loading = true;
@@ -123,46 +121,42 @@ export class GameComponent implements OnInit {
       }
     );
   }
-
-  newGame() {
-    this.serverService.getGame().subscribe(
-      (response) => {
-        this.game = response;
-        // console.log('This is a get game response:');
-        this.previousGameAvailabe = true;
-        this.toastr.success('Previous game loaded.');
-        if (this.game.gameHasBeenWon || this.game.gameHasBeenLost) {
-          this.gameStatus = 'You completed your last game, click to start a new one!';
-        } else {
-          this.gameStatus = 'Welcome back, continue where you left off!';
-        }
-        // console.log(this.game);
-      }, (error: HttpErrorResponse) => {
-        if (error.status === 401) {
-          this.toastr.warning('Your session has expired, please log out, then log in ');
-          this.gameStatus = '';
-          this.redText = 'Your session has expired, please click log out, then log in';
-          this.sessionExpired = true;
-          // this.openModal(template);
-        } else {
-          this.toastr.error('An error occurred, check the console');
-        }
-        const txtError = 'Something went wront statuscode: ' + error.status.toString() + ', your session is likely expired';
-        if (error.status === 401) { console.log(txtError); } else {console.log(error); }
-        this.serverService.restartGame().subscribe(
-          (restartResponse) => {
-            console.log('This is a restart response:');
-            this.game = restartResponse;
-            console.log(restartResponse);
-            this.reloadedPreviousGame = true;
-          }, (restartError: HttpErrorResponse) => {
-            // console.log(restartError);
-          }
-        );
+  onLetterClick(letter: string) {
+    this.game.usedLetters.push(letter);
+    this.serverService.guessLetter(letter).subscribe((res: Response) => {
+      this.game = res;
+      if (this.game.gameHasBeenLost) {
+        this.greenText = '';
+        this.redText = 'You have lost, ';
+        this.gameStatus = 'try again';
+        // this.imageIndex = -1;
+      } else if (this.game.gameHasBeenWon) {
+        this.redText = '';
+        this.greenText = 'Great job, ';
+        this.gameStatus = 'you won the game!';
+        this.game.visibleWord = this.game.finalGuessWord;
+        // this.imageIndex = -1;
+      } else if (this.game.lastGuessedLetterIsCorrect === false) {
+        this.greenText = '';
+        this.redText = 'Wrong letter ';
+        this.gameStatus = (letter + ' was pressed ');
+        // console.log('Wrong letter ' + letter + ' was pressed' + this.game.lastGuessedLetterIsCorrect);
+        // this.imageIndex++;
+      } else {
+        this.redText = '';
+        this.greenText = 'Correct letter ';
+        this.gameStatus = letter + ' was pressed';
+        // console.log('Correct letter ' + letter + ' was pressed ' + this.game.lastGuessedLetterIsCorrect);
       }
-    );
-    this.buttonLetters = this.letters;
-    this.gameStatus = 'Welcome to hangman, start a game or see the latest highscores!';
+    }, (error: HttpErrorResponse) => {
+      if (error.status === 500) { // Undersøger for fejl som ikke sker længere.
+        this.router.navigate([GameComponent]); // Denne fejl kan stoppe hjemmesiden med at virke indtil refresh, derfor reloades
+      }
+      console.log(error);
+    });
+  }
+  onHighScoresClicked() {
+    this.router.navigate(['/highscores']);
   }
 
   keyPressed(bLetter) {

@@ -8,7 +8,6 @@ import {Component} from '@angular/core';
     <div class="container" align="center">
       <router-outlet></router-outlet>
     </div>
-  `,
-  styleUrls: []
+  `
 })
 export class AppComponent {}

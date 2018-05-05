@@ -20,19 +20,14 @@ export class GameComponent implements OnInit {
   images: string[];
   letters: string[];
   game: any;
-  imageIndex: number;
-  private previousGameAvailabe: boolean;
-  private reloadedPreviousGame: boolean;
 
   constructor(private serverService: ServerService, private router: Router, private toastr: ToastrService) {}
   ngOnInit() {
-    this.sessionExpired = false;
-    this.greenText = '';
-    this.redText = '';
     this.loading = false;
-    this.imageIndex = 0;
-    this.previousGameAvailabe = false;
-    this.reloadedPreviousGame = false;
+    this.redText = '';
+    this.greenText = '';
+    this.sessionExpired = false;
+    this.gameStatus = '';
     this.images = ['./assets/GRAFIK/galge.png', './assets/GRAFIK/forkert1.png',
       './assets/GRAFIK/forkert2.png', './assets/GRAFIK/forkert3.png', './assets/GRAFIK/forkert4.png'
       , './assets/GRAFIK/forkert5.png', './assets/GRAFIK/forkert6.png'];
@@ -58,7 +53,6 @@ export class GameComponent implements OnInit {
     this.serverService.getGame().subscribe(
       (response) => {
         this.game = response;
-        this.previousGameAvailabe = true;
         this.toastr.success('Previous game loaded.');
         if (this.game.gameHasBeenWon || this.game.gameHasBeenLost) {
           this.gameStatus = 'You completed your last game, click to start a new one!';
@@ -82,7 +76,6 @@ export class GameComponent implements OnInit {
             console.log('This is a restart response:');
             this.game = restartResponse;
             console.log(restartResponse);
-            this.reloadedPreviousGame = true;
           }, (restartError: HttpErrorResponse) => {
             // console.log(restartError);
           }
@@ -98,7 +91,6 @@ export class GameComponent implements OnInit {
       (response) => {
         this.game = response;
         // console.log('This is a put game response:');
-        this.previousGameAvailabe = true;
         console.log(this.game);
         this.loading = false;
         this.gameStatus = 'You can start guessing the new game now!';
@@ -113,7 +105,6 @@ export class GameComponent implements OnInit {
           (restartResponse) => {
             console.log('This is a restart response:');
             this.game = restartResponse;
-            this.reloadedPreviousGame = true;
             this.loading = false;
             console.log(this.game);
           }, (restartError: HttpErrorResponse) => {

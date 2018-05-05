@@ -13,12 +13,10 @@ import {HttpErrorResponse} from '@angular/common/http';
 export class HeaderComponent implements OnInit {
   constructor(public auth: AuthService, private router: Router, private toastr: ToastrService) {}
   name: string;
-  sessionExpired: boolean;
   isModalShown: boolean;
   // laver en observable til at tjekke den token vi bruger, det skal bruges til at sætte navnet for brugeren. Startes i OnInit
   observeToken;
   ngOnInit(): void {
-    this.sessionExpired = false;
     this.isModalShown = false;
     this.observeToken = new Observable((observer) => {
       observer.next(localStorage.getItem('token'));
@@ -32,7 +30,6 @@ export class HeaderComponent implements OnInit {
             console.log(error);
             if (error.status === 401 && this.auth.loggedIn) {
               this.showModal();
-              this.sessionExpired = true;
             }
           });
         }

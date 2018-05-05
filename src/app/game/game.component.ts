@@ -62,24 +62,24 @@ export class GameComponent implements OnInit {
       }, (error: HttpErrorResponse) => {
         if (error.status === 401) {
           // This if-content should be unnecessary as automatic logout has been implemented.
-          this.toastr.warning('Your session has expired, please log out, then log in ');
-          this.gameStatus = '';
+          this.toastr.warning('Your session has expired since you last visited');
           this.redText = 'Your session has expired, please click log out, then log in';
           this.sessionExpired = true;
         } else {
           this.toastr.error('An error occurred, check the console');
         }
         const txtError = 'Something went wront statuscode: ' + error.status.toString() + ', your session is likely expired';
-        if (error.status === 401) { console.log(txtError); } else {console.log(error); }
-        this.serverService.restartGame().subscribe(
-          (restartResponse) => {
-            console.log('This is a restart response:');
-            this.game = restartResponse;
-            console.log(restartResponse);
-          }, (restartError: HttpErrorResponse) => {
-            // console.log(restartError);
-          }
-        );
+        if (error.status === 401) { console.log(txtError); } else if (error.status !== 401) {
+          this.serverService.restartGame().subscribe(
+            (restartResponse) => {
+              console.log('This is a restart response:');
+              this.game = restartResponse;
+              console.log(restartResponse);
+            }, (restartError: HttpErrorResponse) => {
+              console.log(restartError);
+            }
+          );
+        }
       }
     );
     this.buttonLetters = this.letters;
@@ -90,7 +90,6 @@ export class GameComponent implements OnInit {
     this.serverService.startGame().subscribe(
       (response) => {
         this.game = response;
-        // console.log('This is a put game response:');
         console.log(this.game);
         this.loading = false;
         this.gameStatus = 'You can start guessing the new game now!';

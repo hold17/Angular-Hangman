@@ -5,8 +5,11 @@
     <img src={{images[game.wrongLettersCount]}} />
   </div>
   <hr>
-  <div class="secretWord" *ngIf="game.hasGameBegun">
+  <div class="word" *ngIf="game.hasGameBegun">
     {{game.visibleWord}}
+  </div>
+  <div class="word" *ngIf="game.gameHasBeenWon || game.gameHasBeenLost">
+    {{game.finalGuessWord}}
   </div>
   <div>
     <p class="alert">

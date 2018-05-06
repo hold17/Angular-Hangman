@@ -127,19 +127,16 @@ export class GameComponent implements OnInit {
         this.redText = '';
         this.greenText = 'Great job, ';
         this.gameStatus = 'you won the game!';
-        this.game.visibleWord = this.game.finalGuessWord;
-        // this.imageIndex = -1;
+
       } else if (this.game.lastGuessedLetterIsCorrect === false) {
         this.greenText = '';
         this.redText = 'Wrong letter ';
         this.gameStatus = (letter + ' was pressed ');
-        // console.log('Wrong letter ' + letter + ' was pressed' + this.game.lastGuessedLetterIsCorrect);
-        // this.imageIndex++;
+
       } else {
         this.redText = '';
         this.greenText = 'Correct letter ';
         this.gameStatus = letter + ' was pressed';
-        // console.log('Correct letter ' + letter + ' was pressed ' + this.game.lastGuessedLetterIsCorrect);
       }
     }, (error: HttpErrorResponse) => {
       if (error.status === 500) { // Undersøger for fejl som ikke sker længere.

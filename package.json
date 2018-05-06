@@ -1,6 +1,6 @@
 {
-  "name": "hangman",
-  "version": "0.0.0",
+  "name": "Hangman",
+  "version": "1.0.0",
   "license": "MIT",
   "main": "electronmain.js",
   "scripts": {
@@ -12,6 +12,7 @@
     "e2e": "ng e2e",
     "electron": "electron .",
     "electron-build": "ng build --prod && electron .",
+    "package-win64": "electron-packager . Hangman --overwrite --platform=win32 --arch=x64",
     "package-win": "electron-packager . Hangman --overwrite --platform=win32 --arch=ia32",
     "package-mac": "electron-packager . Hangman --overwrite --platform=darwin --arch=x64",
     "package-linux": "electron-packager . Hangman --platform=linux --arch=x64 --overwrite"
@@ -54,9 +55,8 @@
     "@types/node": "~8.9.4",
     "codelyzer": "~4.1.0",
     "electron": "^2.0.0",
+    "electron-builder": "^20.11.1",
     "electron-packager": "^12.0.2",
-    "electron-windows-installer": "^1.7.8",
-    "electron-winstaller": "^2.6.4",
     "gulp": "^3.9.1",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",

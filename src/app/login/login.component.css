@@ -1,12 +1,10 @@
 .container{
   margin-top: 100px;
 }
-input.ng-invalid.ng-touched {
+.input.ng-invalid.ng-touched {
   border: 1px solid red;
 }
-.alert-danger{
 
-}
 .login-or {
   position: relative;
   font-size: 18px;
@@ -19,4 +17,8 @@ input.ng-invalid.ng-touched {
 .btn-link {
   margin: 20px;
   padding: 10px;
+}
+.input-group-addon{
+  padding-top: 6px;
+  padding-right: 25px;
 }

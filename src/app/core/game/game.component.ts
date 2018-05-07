@@ -160,11 +160,7 @@ export class GameComponent implements OnInit {
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
     if (this.keyPressed(event.key)) {
-      try {
         this.onLetterClick(event.key);
-      } catch (e) {
-        console.log(e);
       }
     }
-  }
 }

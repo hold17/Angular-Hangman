@@ -46,10 +46,8 @@ export class GameComponent implements OnInit {
       wrongLettersCount: 0,
       finalGuessWord: ''
     };
-
     this.newGame(); // Initialiserer spillet
   }
-
   newGame() {
     this.serverService.getGame().subscribe(
       (response) => {
@@ -61,17 +59,17 @@ export class GameComponent implements OnInit {
           this.gameStatus = 'Welcome back, continue where you left off!';
         }
       }, (error: HttpErrorResponse) => {
+        const txtError = 'Something went wront statuscode: ' + error.status.toString() + ', your session is likely expired';
         if (error.status === 401) {
           // This if-content should be unnecessary as automatic logout has been implemented.
           this.toastr.warning('Your session has expired since you last visited');
-          this.redText = 'Your session has expired, please click log out, then log in';
+          this.redText = txtError;
           this.sessionExpired = true;
         } else {
           console.log(error);
-          this.toastr.error('An error occurred, check the console');
+          if (error.status !== 400) {this.toastr.error('An error occurred, check the console'); }
         }
-        const txtError = 'Something went wront statuscode: ' + error.status.toString() + ', your session is likely expired';
-        if (error.status === 401) { console.log(txtError); } else if (error.status !== 401) {
+        if (error.status === 401) { console.log(txtError); } {
           this.serverService.restartGame().subscribe(
             (restartResponse) => {
               console.log('This is a restart response:');
@@ -151,7 +149,7 @@ export class GameComponent implements OnInit {
   }
 
   keyPressed(bLetter) {
-  // Lytter til alle bogstaver
+    // Lytter til alle bogstaver
     for (let i = 0; i < this.buttonLetters.length; i++) {
       if (this.buttonLetters[i] === bLetter) { return true; }
     }
@@ -160,7 +158,7 @@ export class GameComponent implements OnInit {
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
     if (this.keyPressed(event.key)) {
-        this.onLetterClick(event.key);
-      }
+      this.onLetterClick(event.key);
     }
+  }
 }

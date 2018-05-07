@@ -3,7 +3,7 @@ import {HighscoreComponent} from './highscore/highscore.component';
 import {AppRoutingModule} from '../app-routing.module';
 import {GameComponent} from './game/game.component';
 import {SharedModule} from '../shared/shared.module';
-import {GameServerService} from '../shared/game-server.service';
+import {GameServerService} from './game-server.service';
 
 @NgModule({
   declarations: [

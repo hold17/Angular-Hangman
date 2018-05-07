@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Location} from '@angular/common';
-import {GameServerService} from '../../shared/game-server.service';
+import {GameServerService} from '../game-server.service';
 import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({

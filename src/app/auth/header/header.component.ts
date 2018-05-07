@@ -14,7 +14,7 @@ export class HeaderComponent implements OnInit {
   constructor(public auth: AuthService, private router: Router, private toastr: ToastrService) {}
   name: string;
   isModalShown: boolean;
-  // laver en observable til at tjekke den token vi bruger, det skal bruges til at sætte navnet for brugeren. Startes i OnInit
+  // laver en observable til at tjekke den token vi bruger, det skal bruges i setName i denne klasse.
   observeToken;
   ngOnInit(): void {
     this.isModalShown = false;
@@ -65,5 +65,4 @@ export class HeaderComponent implements OnInit {
     this.isModalShown = false;
     this.logout();
   }
-
 }

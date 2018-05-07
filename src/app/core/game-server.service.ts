@@ -45,7 +45,7 @@ export class GameServerService {
       return res;
     });
   }
-  parseToken() {
+  private parseToken() {
     let token;
     try {
       token = JSON.parse(localStorage.getItem('token')).access_token;

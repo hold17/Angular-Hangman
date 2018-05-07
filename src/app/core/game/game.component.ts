@@ -2,7 +2,7 @@ import {Component, HostListener, OnInit} from '@angular/core';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
-import {GameServerService} from '../../shared/game-server.service';
+import {GameServerService} from '../game-server.service';
 
 @Component({
   selector: 'app-word',

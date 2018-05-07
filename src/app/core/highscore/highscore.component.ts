@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Location} from '@angular/common';
-import {ServerService} from '../../server.service';
+import {GameServerService} from '../../shared/game-server.service';
 import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
@@ -9,7 +9,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 })
 export class HighscoreComponent implements OnInit {
   rows: any;
-  constructor(private location: Location, private server: ServerService) {}
+  constructor(private location: Location, private server: GameServerService) {}
   ngOnInit() {
     console.log(this.rows);
     console.log('Highscores');

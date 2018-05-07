@@ -1,6 +1,6 @@
 import {Component, DoCheck, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
-import {AuthService} from '../../auth.service';
+import {AuthService} from '../auth.service';
 import {Router} from '@angular/router';
 import {HttpErrorResponse} from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit, DoCheck {
   ngDoCheck() { // Det her løser det problem den anden gruppe snakkede om med formen der blev ved med at være rød.
     this.signupForm.valueChanges.subscribe((response) => {
       this.user = response;
-      console.log(this.signupForm);
     });
     if (this.user.username.length === 0 && this.user.password.length === 0 && this.signupForm.touched) {
       this.signupForm.form.controls['username'].markAsUntouched();
@@ -46,7 +45,7 @@ export class LoginComponent implements OnInit, DoCheck {
     this.user.password = this.signupForm.value.password;
 
     this.authService.login(this.user.username, this.user.password).subscribe(
-      (response) => {
+      () => {
         this.submitted = false;
         this.authService.loggedIn = true;
         this.router.navigate(['/game']);
@@ -58,10 +57,10 @@ export class LoginComponent implements OnInit, DoCheck {
         this.inputError = !this.inputError;
         this.httpMessage.bold = error.status.toString();
         this.httpMessage.text = error.error.error_message;
-        if (error.status === 500 && this.httpMessage.text.length < 3) { this.httpMessage.text = 'Soap Service is down,' +
+        if (error.status === 500 && this.httpMessage.text.length < 2) { this.httpMessage.text = 'Soap Service is down,' +
           ' contact system administrator'; }
-        if (error.status === 503) { this.httpMessage.text = 'Backend services are down, due to maintenence, ' +
-          'try again later, or contact system administrator'; }
+        if (error.status === 503 && this.httpMessage.text.length < 2) { this.httpMessage.text = 'Backend services are down,' +
+          ' due to maintenence, try again later, or contact system administrator'; }
       }
     );
   }

@@ -1,8 +1,8 @@
 import {Component, HostListener, OnInit} from '@angular/core';
-import {ServerService} from '../../server.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
+import {GameServerService} from '../../shared/game-server.service';
 
 @Component({
   selector: 'app-word',
@@ -21,7 +21,7 @@ export class GameComponent implements OnInit {
   letters: string[];
   game: any;
 
-  constructor(private serverService: ServerService, private router: Router, private toastr: ToastrService) {}
+  constructor(private serverService: GameServerService, private router: Router, private toastr: ToastrService) {}
   ngOnInit() {
     this.loading = false;
     this.redText = '';
@@ -33,7 +33,8 @@ export class GameComponent implements OnInit {
       , './assets/GRAFIK/forkert5.png', './assets/GRAFIK/forkert6.png'];
     this.letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
       'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
-    this.game =  <any>{gameHasBeenLost: false,
+    this.game =  <any>{
+      gameHasBeenLost: false,
       gameHasBeenWon: false,
       hasGameBegun: false,
       isGameOver: true,
@@ -66,6 +67,7 @@ export class GameComponent implements OnInit {
           this.redText = 'Your session has expired, please click log out, then log in';
           this.sessionExpired = true;
         } else {
+          console.log(error);
           this.toastr.error('An error occurred, check the console');
         }
         const txtError = 'Something went wront statuscode: ' + error.status.toString() + ', your session is likely expired';
@@ -122,7 +124,6 @@ export class GameComponent implements OnInit {
         this.greenText = '';
         this.redText = 'You have lost, ';
         this.gameStatus = 'try again';
-        // this.imageIndex = -1;
       } else if (this.game.gameHasBeenWon) {
         this.redText = '';
         this.greenText = 'Great job, ';
@@ -142,7 +143,7 @@ export class GameComponent implements OnInit {
       if (error.status === 500) { // Undersøger for fejl som ikke sker længere.
         this.router.navigate([GameComponent]); // Denne fejl kan stoppe hjemmesiden med at virke indtil refresh, derfor reloades
       }
-      console.log(error);
+      if (error.status !== 400) { console.log(error); }
     });
   }
   onHighScoresClicked() {
@@ -150,6 +151,7 @@ export class GameComponent implements OnInit {
   }
 
   keyPressed(bLetter) {
+  // Lytter til alle bogstaver
     for (let i = 0; i < this.buttonLetters.length; i++) {
       if (this.buttonLetters[i] === bLetter) { return true; }
     }
@@ -158,7 +160,11 @@ export class GameComponent implements OnInit {
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
     if (this.keyPressed(event.key)) {
-      this.onLetterClick(event.key);
+      try {
+        this.onLetterClick(event.key);
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
 }

@@ -7,14 +7,20 @@
   <hr>
   <div *ngIf="game.hasGameBegun">
     <p><span class="word-description">{{game.wordExampleBefore}}</span> <span class="word">{{game.visibleWord}}</span> <span class="word-description">{{game.wordExampleAfter}}</span></p>
-    <p class="word-description" style="font-style: italic">{{'Definition: '+game.wordDefinition}}</p>
-    <p *ngFor="let synonym of game.wordSynonyms">{{'Synonym: '+synonym}}</p>
+    <p class="word-description" style="font-style: italic" *ngIf="game.wordDefinition?.length">{{'Definition: '+game.wordDefinition}}</p>
+    <p>
+      <span *ngIf="game.wordSynonyms.length>0">Synonyms: </span>
+      <span *ngFor="let synonym of game.wordSynonyms">{{synonym+ ', '}}</span>
+    </p>
     <!--<p class="word-description" style="font-style: italic" *ngIf="game.wordDefinition.length==0">{{game.wordSynonyms[1]}}</p>-->
   </div>
   <div *ngIf="game.gameHasBeenWon || game.gameHasBeenLost">
     <p><span class="word-description">{{game.wordExampleBefore}}</span> <span class="word">{{game.finalGuessWord}}</span> <span class="word-description">{{game.wordExampleAfter}}</span></p>
-    <p class="word-description" style="font-style: italic">{{'Definition: '+game.wordDefinition}}</p>
-    <p *ngFor="let synonym of game.wordSynonyms">{{'Synonym: '+synonym}}</p>
+    <p class="word-description" style="font-style: italic" *ngIf="game.wordDefinition?.length">{{'Definition: '+game.wordDefinition}}</p>
+    <p>
+      <span *ngIf="game.wordSynonyms.length>0">Synonyms: </span>
+      <span *ngFor="let synonym of game.wordSynonyms">{{synonym+ ', '}}</span>
+    </p>
     <!--<p class="word-description" style="font-style: italic" *ngIf="game.wordDefinition.length==0">{{game.wordSynonyms[1]}}</p>-->
   </div>
   <div>

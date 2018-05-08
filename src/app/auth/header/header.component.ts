@@ -5,13 +5,14 @@ import {Observable} from 'rxjs/Observable';
 import {TimerObservable} from 'rxjs/observable/TimerObservable';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AuthService} from '../auth.service';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
 })
 export class HeaderComponent implements OnInit {
-  constructor(public auth: AuthService, private router: Router, private toastr: ToastrService) {}
+  constructor(public auth: AuthService, private router: Router, private toastr: ToastrService, private location: Location) {}
   name: string;
   isModalShown: boolean;
   // laver en observable til at tjekke den token vi bruger, det skal bruges i setName i denne klasse.

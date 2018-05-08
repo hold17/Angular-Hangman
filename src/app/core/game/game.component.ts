@@ -68,7 +68,7 @@ export class GameComponent implements OnInit {
           this.toastr.warning('Your session has expired since you last visited');
           this.redText = txtError;
           this.sessionExpired = true;
-        } else if (error.status !== 400 || 401) {this.toastr.error('An error occurred, check the console'); } else {
+        } else if (error.status !== 400) {this.toastr.error('An error occurred, check the console');  console.log(error); } else {
           this.serverService.restartGame().subscribe(
             (restartResponse) => {
               console.log('This is a restart response:');

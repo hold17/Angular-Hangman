@@ -13,7 +13,7 @@ import {Subscription} from 'rxjs/Subscription';
   templateUrl: './header.component.html',
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  constructor(public auth: AuthService, private router: Router, private toastr: ToastrService, private location: Location) {}
+  constructor(public auth: AuthService, private router: Router, private toastr: ToastrService, public location: Location) {}
   name: string;
   isModalShown: boolean;
   tokenSubscription: Subscription;

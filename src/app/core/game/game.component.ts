@@ -20,7 +20,6 @@ export class GameComponent implements OnInit {
   images: string[];
   letters: string[];
   game: any;
-
   constructor(private serverService: GameServerService, private router: Router, private toastr: ToastrService) {}
   ngOnInit() {
     this.loading = false;

@@ -16,7 +16,6 @@ export class LoginComponent implements OnInit, DoCheck {
   inputError: boolean;
   user: any;
   httpMessage: any;
-
   constructor(private authService: AuthService,
               private router: Router,
               private toastr: ToastrService) { }

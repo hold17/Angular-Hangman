@@ -11,6 +11,7 @@ export class HighscoreComponent implements OnInit {
   rows: any;
   constructor(private location: Location, private server: GameServerService) {}
   ngOnInit() {
+    console.log(this.location.path());
     console.log(this.rows);
     console.log('Highscores');
     this.server.getHighscores().subscribe(

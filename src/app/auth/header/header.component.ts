@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {Observable} from 'rxjs/Observable';
@@ -6,15 +6,17 @@ import {TimerObservable} from 'rxjs/observable/TimerObservable';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AuthService} from '../auth.service';
 import {Location} from '@angular/common';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   constructor(public auth: AuthService, private router: Router, private toastr: ToastrService, private location: Location) {}
   name: string;
   isModalShown: boolean;
+  tokenSubscription: Subscription;
   // laver en observable til at tjekke den token vi bruger, det skal bruges i setName i denne klasse.
   observeToken;
   ngOnInit(): void {
@@ -24,7 +26,7 @@ export class HeaderComponent implements OnInit {
       observer.complete();
     });
     // Når man har været på siden i et stykke tid, her vil den automatisk vise en modal, som logger dig ud ved klik.
-    TimerObservable.create(9000, 10000).subscribe(() => {
+    this.tokenSubscription = TimerObservable.create(9000, 10000).subscribe(() => {
         const token = localStorage.getItem('token');
         if (token !== null) {
           this.auth.validate(token).subscribe(() => {}, (error: HttpErrorResponse) => {
@@ -65,5 +67,9 @@ export class HeaderComponent implements OnInit {
   onHidden(): void {
     this.isModalShown = false;
     this.logout();
+  }
+
+  ngOnDestroy(): void {
+    this.tokenSubscription.unsubscribe();
   }
 }

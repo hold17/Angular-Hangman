@@ -20,9 +20,11 @@ export class GameComponent implements OnInit {
   images: string[];
   letters: string[];
   game: any;
+  private firstGame: boolean;
   constructor(private serverService: GameServerService, private router: Router, private toastr: ToastrService) {}
   ngOnInit() {
     this.loading = false;
+    this.firstGame = true;
     this.redText = '';
     this.greenText = '';
     this.sessionExpired = false;
@@ -86,8 +88,9 @@ export class GameComponent implements OnInit {
   }
   onStartGameClicked() {
     this.loading = true;
-    this.serverService.startGame().subscribe(
+    this.serverService.startGame(this.firstGame).subscribe(
       (response: Response) => {
+        this.firstGame = false;
         this.game = response;
         this.loading = false;
         this.gameStatus = 'You can start guessing the new game now!';
@@ -139,6 +142,14 @@ export class GameComponent implements OnInit {
         this.router.navigate([GameComponent]); // Denne fejl kan stoppe hjemmesiden med at virke indtil refresh, derfor reloades
       }
       if (error.status !== 400) { console.log(error); }
+    }, () => {
+      if (this.game.isGameOver) {
+        this.serverService.restartGame().subscribe(
+          () => {}, (restartError: HttpErrorResponse) => {
+            console.log(restartError);
+          }
+        );
+      }
     });
   }
   onHighScoresClicked() {

@@ -5,7 +5,7 @@ import {ToastrService} from 'ngx-toastr';
 import {GameServerService} from '../game-server.service';
 
 @Component({
-  selector: 'app-word',
+  selector: 'app-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css'],
 })
@@ -53,7 +53,7 @@ export class GameComponent implements OnInit {
   }
   newGame() {
     this.serverService.getGame().subscribe(
-      (response) => {
+      (response: Response) => {
         this.game = response;
         this.toastr.success('Previous game loaded.');
         if (this.game.gameHasBeenWon || this.game.gameHasBeenLost) {
@@ -70,7 +70,7 @@ export class GameComponent implements OnInit {
           this.sessionExpired = true;
         } else if (error.status !== 400) {this.toastr.error('An error occurred, check the console');  console.log(error); } else {
           this.serverService.restartGame().subscribe(
-            (restartResponse) => {
+            (restartResponse: Response) => {
               console.log('This is a restart response:');
               this.game = restartResponse;
               console.log(restartResponse);
@@ -87,7 +87,7 @@ export class GameComponent implements OnInit {
   onStartGameClicked() {
     this.loading = true;
     this.serverService.startGame().subscribe(
-      (response) => {
+      (response: Response) => {
         this.game = response;
         this.loading = false;
         this.gameStatus = 'You can start guessing the new game now!';
@@ -99,7 +99,7 @@ export class GameComponent implements OnInit {
         console.log(error.status.toString());
         console.log(error.error.error_message);
         this.serverService.restartGame().subscribe(
-          (restartResponse) => {
+          (restartResponse: Response) => {
             console.log('This is a restart response:');
             this.game = restartResponse;
             this.loading = false;

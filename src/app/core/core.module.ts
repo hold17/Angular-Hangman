@@ -8,7 +8,7 @@ import {GameServerService} from './game-server.service';
 @NgModule({
   declarations: [
     HighscoreComponent,
-    GameComponent
+    GameComponent,
   ],
   imports: [AppRoutingModule, SharedModule],
   providers: [GameServerService]

@@ -7,7 +7,7 @@ const notify = require('electron-main-notification');
 
 let win;
 function createWindow () {
-  const windowOptions = {width: 1280, height: 900, show:false}
+  const windowOptions = {width: 1400, height: 900, show:false}
   win = new BrowserWindow(windowOptions); // load the dist folder from Angular
 
 

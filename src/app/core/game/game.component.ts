@@ -44,7 +44,11 @@ export class GameComponent implements OnInit {
       usedLetters: [],
       visibleWord: '',
       wrongLettersCount: 0,
-      finalGuessWord: ''
+      finalGuessWord: '',
+      wordExampleBefore: '',
+      wordExampleAfter: '',
+      wordDefinition: '',
+      wordSynonyms: '',
     };
     this.newGame(); // Initialiserer spillet
   }
@@ -65,11 +69,7 @@ export class GameComponent implements OnInit {
           this.toastr.warning('Your session has expired since you last visited');
           this.redText = txtError;
           this.sessionExpired = true;
-        } else {
-          console.log(error);
-          if (error.status !== 400) {this.toastr.error('An error occurred, check the console'); }
-        }
-        if (error.status === 401) { console.log(txtError); } {
+        } else if (error.status !== 400 || 401) {this.toastr.error('An error occurred, check the console'); } else {
           this.serverService.restartGame().subscribe(
             (restartResponse) => {
               console.log('This is a restart response:');
@@ -90,7 +90,6 @@ export class GameComponent implements OnInit {
     this.serverService.startGame().subscribe(
       (response) => {
         this.game = response;
-        console.log(this.game);
         this.loading = false;
         this.gameStatus = 'You can start guessing the new game now!';
         this.greenText = '';
@@ -105,7 +104,6 @@ export class GameComponent implements OnInit {
             console.log('This is a restart response:');
             this.game = restartResponse;
             this.loading = false;
-            console.log(this.game);
           }, (restartError: HttpErrorResponse) => {
             console.log(restartError);
             this.loading = false;

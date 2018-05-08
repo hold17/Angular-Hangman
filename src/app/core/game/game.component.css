@@ -15,9 +15,19 @@
   margin: 0 10px;
 }
 .word {
+  position:center;
+  left:0;
+  right:0;
+  margin-left:auto;
+  margin-right:auto;
   margin-top: 20px;
   margin-bottom: 40px;
   font-size: 3rem;
+}
+.word-description{
+  margin-top: 20px;
+  margin-bottom: 40px;
+  color: #7a8d94;
 }
 .list-inline {
   width: 470px;

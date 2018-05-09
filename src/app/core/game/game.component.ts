@@ -52,6 +52,7 @@ export class GameComponent implements OnInit {
     this.newGame(); // Initialiserer spillet
   }
   newGame() {
+    this.loading = true;
     this.serverService.getGame().subscribe(
       (response: Response) => {
         this.game = response;
@@ -78,6 +79,8 @@ export class GameComponent implements OnInit {
             }
           );
         }
+      }, () => {
+        this.loading = false;
       }
     );
     this.buttonLetters = this.letters;

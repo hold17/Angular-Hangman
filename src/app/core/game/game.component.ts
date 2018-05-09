@@ -169,7 +169,7 @@ export class GameComponent implements OnInit {
   letterKeyEvent(event: KeyboardEvent) {
     if (this.keyPressed(event.key)) {
       this.onLetterClick(event.key);
-    } else if (event.keyCode === 13) {
+    } else if (event.keyCode === 13 && !this.game.hasGameBegun) {
       this.onStartGameClicked();
     }
   }

@@ -26,11 +26,10 @@ export class GameServerService {
     return this.http.post('https://www.localghost.dk/hangman/api/hangman/game', null,
       {headers: new HttpHeaders().set('Authorization', 'Bearer ' + token)}
     ).map((res: Response) => {
-      console.log(res);
       return res;
     });
   }
-  startGame(firstGame: boolean) {
+  startGame() {
     const token = this.parseToken();
     return this.http.put('https://www.localghost.dk/hangman/api/hangman/game', null,
       {headers: new HttpHeaders().set('Authorization', 'Bearer ' + token)}
@@ -42,7 +41,8 @@ export class GameServerService {
     const token = this.parseToken();
     return this.http.post('https://www.localghost.dk/hangman/api/hangman/guess/' + letter, null,
       {headers: new HttpHeaders().set('Authorization', 'Bearer ' + token)}
-    ).map((res: Response) => {
+    )
+      .map((res: Response) => {
       return res;
     });
   }

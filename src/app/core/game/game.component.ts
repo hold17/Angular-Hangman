@@ -20,11 +20,9 @@ export class GameComponent implements OnInit {
   images: string[];
   letters: string[];
   game: any;
-  private firstGame: boolean;
   constructor(private serverService: GameServerService, private router: Router, private toastr: ToastrService) {}
   ngOnInit() {
     this.loading = false;
-    this.firstGame = true;
     this.redText = '';
     this.greenText = '';
     this.sessionExpired = false;
@@ -67,7 +65,7 @@ export class GameComponent implements OnInit {
         const txtError = 'Something went wront statuscode: ' + error.status.toString() + ', your session is likely expired';
         if (error.status === 401) {
           // This if-content should be unnecessary as automatic logout has been implemented.
-          this.toastr.warning('Your session has expired since you last visited');
+          this.toastr.info('Your session has expired since you last visited');
           this.redText = txtError;
           this.sessionExpired = true;
         } else if (error.status !== 400) {this.toastr.error('An error occurred, check the console');  console.log(error); } else {
@@ -88,9 +86,8 @@ export class GameComponent implements OnInit {
   }
   onStartGameClicked() {
     this.loading = true;
-    this.serverService.startGame(this.firstGame).subscribe(
+    this.serverService.startGame().subscribe(
       (response: Response) => {
-        this.firstGame = false;
         this.game = response;
         this.loading = false;
         this.gameStatus = 'You can start guessing the new game now!';
@@ -140,10 +137,10 @@ export class GameComponent implements OnInit {
     }, (error: HttpErrorResponse) => {
       if (error.status === 500) { // Undersøger for fejl som sker ved Edge-Case.
         console.log('Error 500');
-        this.toastr.info('Are you trying to crash me?');
-        console.log(error);
+        this.toastr.warning('The server experienced an unusual error');
       }
-      if (error.status !== 400) { console.log(error); }
+      if (error.status !== 400) {
+        console.log(error); }
     }, () => {
       if (this.game.isGameOver) {
         this.serverService.restartGame().subscribe(
@@ -166,10 +163,11 @@ export class GameComponent implements OnInit {
   }
 
   @HostListener('window:keyup', ['$event'])
+  @HostListener('window:keyup', ['$event'])
   letterKeyEvent(event: KeyboardEvent) {
     if (this.keyPressed(event.key)) {
       this.onLetterClick(event.key);
-    } else if (event.keyCode === 13 && !this.game.hasGameBegun) {
+    } else if (event.keyCode === 13 && !this.game.hasGameBegun && !this.loading) {
       this.onStartGameClicked();
     }
   }

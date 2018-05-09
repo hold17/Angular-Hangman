@@ -164,9 +164,11 @@ export class GameComponent implements OnInit {
   }
 
   @HostListener('window:keyup', ['$event'])
-  keyEvent(event: KeyboardEvent) {
+  letterKeyEvent(event: KeyboardEvent) {
     if (this.keyPressed(event.key)) {
       this.onLetterClick(event.key);
+    } else if (event.keyCode === 13) {
+      this.onStartGameClicked();
     }
   }
 }

@@ -91,7 +91,6 @@ export class GameComponent implements OnInit {
     this.serverService.startGame().subscribe(
       (response: Response) => {
         this.game = response;
-        this.loading = false;
         this.gameStatus = 'You can start guessing the new game now!';
         this.greenText = '';
         this.redText = '';
@@ -110,6 +109,8 @@ export class GameComponent implements OnInit {
             this.loading = false;
           }
         );
+      }, () => {
+        this.loading = false;
       }
     );
   }

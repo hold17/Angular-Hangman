@@ -45,13 +45,11 @@ export class LoginComponent implements OnInit, DoCheck {
 
     this.authService.login(this.user.username, this.user.password).subscribe(
       () => {
-        this.submitted = false;
         this.authService.loggedIn = true;
         this.router.navigate(['/game']);
         this.toastr.success('You have succesfully logged in');
       } ,
       (error: HttpErrorResponse) => {
-        this.submitted = false;
         console.log(error);
         this.inputError = !this.inputError;
         this.httpMessage.bold = error.status.toString();
@@ -60,6 +58,8 @@ export class LoginComponent implements OnInit, DoCheck {
           ' contact system administrator'; }
         if (error.status === 503 && this.httpMessage.text.length < 2) { this.httpMessage.text = 'Backend services are down,' +
           ' due to maintenence, try again later, or contact system administrator'; }
+      }, () => {
+        this.submitted = false;
       }
     );
   }

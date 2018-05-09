@@ -64,7 +64,6 @@ export class GameComponent implements OnInit {
       }, (error: HttpErrorResponse) => {
         const txtError = 'Something went wront statuscode: ' + error.status.toString() + ', your session is likely expired';
         if (error.status === 401) {
-          // This if-content should be unnecessary as automatic logout has been implemented.
           this.toastr.info('Your session has expired since you last visited');
           this.redText = txtError;
           this.sessionExpired = true;

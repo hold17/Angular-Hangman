@@ -163,7 +163,6 @@ export class GameComponent implements OnInit {
   }
 
   @HostListener('window:keyup', ['$event'])
-  @HostListener('window:keyup', ['$event'])
   letterKeyEvent(event: KeyboardEvent) {
     if (this.keyPressed(event.key)) {
       this.onLetterClick(event.key);

@@ -138,8 +138,10 @@ export class GameComponent implements OnInit {
         this.gameStatus = letter + ' was pressed';
       }
     }, (error: HttpErrorResponse) => {
-      if (error.status === 500) { // Undersøger for fejl som ikke sker længere.
-        this.router.navigate([GameComponent]); // Denne fejl kan stoppe hjemmesiden med at virke indtil refresh, derfor reloades
+      if (error.status === 500) { // Undersøger for fejl som sker ved Edge-Case.
+        console.log('Error 500');
+        this.toastr.info('Are you trying to crash me?');
+        console.log(error);
       }
       if (error.status !== 400) { console.log(error); }
     }, () => {

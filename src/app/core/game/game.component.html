@@ -31,7 +31,7 @@
       {{gameStatus}}</p>
     <div>
       <div>
-        <button class="btn btn-success mainbuttons" (click)="onStartGameClicked()" *ngIf="!game.hasGameBegun || game.isGameOver">Start <i class="fa fa-gamepad"></i></button>
+        <button class="btn btn-success mainbuttons" (click)="onStartGameClicked()" *ngIf="!game.hasGameBegun || game.isGameOver" [disabled]="game.hasGameBegun">Start <i class="fa fa-gamepad"></i></button>
         <button class="btn btn-secondary mainbuttons" (click)="onHighScoresClicked()" *ngIf="!game.hasGameBegun || game.isGameOver">Highscores</button>
       </div>
       <div class="letterButtons" *ngIf="(game.hasGameBegun && !game.isGameOver) && !sessionExpired">

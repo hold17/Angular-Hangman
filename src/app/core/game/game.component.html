@@ -8,7 +8,7 @@
   <div *ngIf="game.hasGameBegun">
     <p><span class="word-description">{{game.wordExampleBefore}}</span> <span class="word">{{game.visibleWord}}</span> <span class="word-description">{{game.wordExampleAfter}}</span></p>
     <p class="word-description" style="font-style: italic" *ngIf="game.wordDefinition?.length">{{'Definition: '+game.wordDefinition}}</p>
-    <p>
+    <p style="font-style: italic">
       <span *ngIf="game.wordSynonyms.length>0">Synonyms: </span>
       <span *ngFor="let synonym of game.wordSynonyms">{{synonym+ ', '}}</span>
     </p>
@@ -17,7 +17,7 @@
   <div *ngIf="game.gameHasBeenWon || game.gameHasBeenLost">
     <p><span class="word-description">{{game.wordExampleBefore}}</span> <span class="word">{{game.finalGuessWord}}</span> <span class="word-description">{{game.wordExampleAfter}}</span></p>
     <p class="word-description" style="font-style: italic" *ngIf="game.wordDefinition?.length">{{'Definition: '+game.wordDefinition}}</p>
-    <p>
+    <p style="font-style: italic">
       <span *ngIf="game.wordSynonyms.length>0">Synonyms: </span>
       <span *ngFor="let synonym of game.wordSynonyms">{{synonym+ ', '}}</span>
     </p>

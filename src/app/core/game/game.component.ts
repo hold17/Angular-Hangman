@@ -55,6 +55,7 @@ export class GameComponent implements OnInit {
     this.loading = true;
     this.serverService.getGame().subscribe(
       (response: Response) => {
+        this.loading = false;
         this.game = response;
         this.toastr.success('Previous game loaded.');
         if (this.game.gameHasBeenWon || this.game.gameHasBeenLost) {
@@ -63,6 +64,7 @@ export class GameComponent implements OnInit {
           this.gameStatus = 'Welcome back, continue where you left off!';
         }
       }, (error: HttpErrorResponse) => {
+        this.loading = false;
         const txtError = 'Something went wront statuscode: ' + error.status.toString() + ', your session is likely expired';
         if (error.status === 401) {
           this.toastr.info('Your session has expired since you last visited');
@@ -95,7 +97,6 @@ export class GameComponent implements OnInit {
         this.greenText = '';
         this.redText = '';
       }, (error: HttpErrorResponse) => {
-        this.loading = true;
         console.log(error);
         console.log(error.status.toString());
         console.log(error.error.error_message);

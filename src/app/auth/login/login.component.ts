@@ -50,6 +50,7 @@ export class LoginComponent implements OnInit, DoCheck {
         this.toastr.success('You have succesfully logged in');
       } ,
       (error: HttpErrorResponse) => {
+        this.submitted = false;
         console.log(error);
         this.inputError = !this.inputError;
         this.httpMessage.bold = error.status.toString();

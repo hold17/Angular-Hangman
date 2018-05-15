@@ -48,6 +48,7 @@ export class LoginComponent implements OnInit, DoCheck {
         this.authService.loggedIn = true;
         this.router.navigate(['/game']);
         this.toastr.success('You have succesfully logged in');
+        this.submitted = false;
       } ,
       (error: HttpErrorResponse) => {
         this.submitted = false;

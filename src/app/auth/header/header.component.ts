@@ -1,11 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
-import {Observable} from 'rxjs/Observable';
 import {TimerObservable} from 'rxjs/observable/TimerObservable';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AuthService} from '../auth.service';
 import {Location} from '@angular/common';
+import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
 
 @Component({
@@ -29,7 +29,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.tokenSubscription = TimerObservable.create(9000, 10000).subscribe(() => {
         const token = localStorage.getItem('token');
         if (token !== null) {
-          this.auth.validate(token).subscribe(() => {}, (error: HttpErrorResponse) => {
+          this.auth.validate2(token).subscribe(() => {}, (error: HttpErrorResponse) => {
             console.log(error);
             if (error.status === 401 && this.auth.loggedIn) {
               this.showModal();

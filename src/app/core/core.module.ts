@@ -13,6 +13,4 @@ import {GameServerService} from './game-server.service';
   imports: [AppRoutingModule, SharedModule],
   providers: [GameServerService]
 })
-export class CoreModule {
-
-}
+export class CoreModule {}

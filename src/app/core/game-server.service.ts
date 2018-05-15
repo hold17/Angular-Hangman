@@ -30,7 +30,8 @@ export class GameServerService {
     const token = this.parseToken();
     return this.http.post('https://www.localghost.dk/hangman/api/hangman/game', null,
       {headers: new HttpHeaders().set('Authorization', 'Bearer ' + token)}
-    ).pipe(map((res: Response) => {
+    ).pipe(
+      map((res: Response) => {
         return res;
       })
     );

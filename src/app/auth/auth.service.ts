@@ -15,7 +15,7 @@ export class AuthService {
     // Kald der skal ske når man kommer in på siden, her skal den logge dig ud automatisk, hvis din session er udløbet
     const token = localStorage.getItem('token');
     if ( token !== null) {
-      this.validate2(token).subscribe(() => {}, (error: HttpErrorResponse) => {
+      this.validate(token).subscribe(() => {}, (error: HttpErrorResponse) => {
         console.log(error);
         if (error.status === 401) {
           this.loggedIn = false;
@@ -49,23 +49,6 @@ export class AuthService {
     );
   }
   validate(stringtoken: string): Observable <any> {
-    if (stringtoken.length < 1 || stringtoken === null) { return; }
-    let token;
-    try {
-      token = JSON.parse(stringtoken).access_token;
-    } catch (e) {
-      console.log(e);
-    }
-    const body = new HttpParams()
-      .set('authorization', token);
-    return this.http.post('https://www.localghost.dk/hangman/oauth/validate',
-      body.toString(),
-      {
-        headers: new HttpHeaders().set('Authorization', 'Bearer ' + token)
-      }
-    );
-  }
-  validate2(stringtoken: string): Observable <any> {
     if (stringtoken.length < 1 || stringtoken === null) { return; }
     let token;
     try {

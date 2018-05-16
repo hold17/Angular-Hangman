@@ -18,10 +18,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isModalShown: boolean;
   tokenSubscription: Subscription;
   // laver en observable til at tjekke den token vi bruger, det skal bruges i setName i denne klasse.
-  observeToken;
+  observeToken$;
   ngOnInit(): void {
     this.isModalShown = false;
-    this.observeToken = new Observable((observer) => {
+    this.observeToken$ = new Observable((observer) => {
       observer.next(localStorage.getItem('token'));
       observer.complete();
     });
@@ -29,7 +29,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.tokenSubscription = TimerObservable.create(9000, 10000).subscribe(() => {
         const token = localStorage.getItem('token');
         if (token !== null) {
-          this.auth.validate2(token).subscribe(() => {}, (error: HttpErrorResponse) => {
+          this.auth.validate(token).subscribe(() => {}, (error: HttpErrorResponse) => {
             console.log(error);
             if (error.status === 401 && this.auth.loggedIn) {
               this.showModal();
@@ -54,7 +54,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   setName() {
     if (this.auth.loggedIn) {
       // sætter name property til at være JSON objectets first name
-      this.observeToken.subscribe((res: string) => {
+      this.observeToken$.subscribe((res: string) => {
         const tokenObj = JSON.parse(res);
         this.name = tokenObj.user.firstname;
       });

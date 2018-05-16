@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {map} from 'rxjs/operators';
+import {GameModel} from '../shared/game.model';
 
 // Overvej at bruge intercepter
 
@@ -11,7 +12,7 @@ export class GameServerService {
   getHighscores() {
     return this.http.get('https://www.localghost.dk/hangman/api/hangman/highscores'
     ).pipe(
-      map((res: Response) => {
+      map((res: GameModel) => {
         return res;
       })
     );
@@ -21,7 +22,7 @@ export class GameServerService {
     return this.http.get('https://www.localghost.dk/hangman/api/hangman/game',
       {headers: new HttpHeaders().set('Authorization', 'Bearer ' + token)}
     ).pipe(
-      map((res: Response) => {
+      map((res: GameModel) => {
         return res;
       })
     );
@@ -31,7 +32,7 @@ export class GameServerService {
     return this.http.post('https://www.localghost.dk/hangman/api/hangman/game', null,
       {headers: new HttpHeaders().set('Authorization', 'Bearer ' + token)}
     ).pipe(
-      map((res: Response) => {
+      map((res: GameModel) => {
         return res;
       })
     );
@@ -41,7 +42,7 @@ export class GameServerService {
     return this.http.put('https://www.localghost.dk/hangman/api/hangman/game', null,
       {headers: new HttpHeaders().set('Authorization', 'Bearer ' + token)}
     ).pipe(
-      map((res: Response) => {
+      map((res: GameModel) => {
         return res;
       })
     );
@@ -51,7 +52,7 @@ export class GameServerService {
     return this.http.post('https://www.localghost.dk/hangman/api/hangman/guess/' + letter, null,
       {headers: new HttpHeaders().set('Authorization', 'Bearer ' + token)}
     ).pipe(
-      map((res: Response) => {
+      map((res: GameModel) => {
         return res;
       })
     );

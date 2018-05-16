@@ -6,11 +6,14 @@
   </div>
   <hr>
   <div *ngIf="game.hasGameBegun || game.gameHasBeenWon || game.gameHasBeenLost">
-    <p><span class="word-description">{{game.wordExampleBefore}}</span> <span class="word">{{game.visibleWord}}</span> <span class="word-description">{{game.wordExampleAfter}}</span></p>
+    <p><span class="word-description">{{game.wordExampleBefore}}</span>
+      <span class="word" *ngIf="game.hasGameBegun">{{game.visibleWord}}</span>
+      <span class="word" *ngIf="game.gameHasBeenWon || game.gameHasBeenLost">{{game.finalGuessWord}}</span>
+      <span class="word-description">{{game.wordExampleAfter}}</span></p>
     <p class="word-description" style="font-style: italic" *ngIf="game.wordDefinition?.length">{{'Definition: '+game.wordDefinition}}</p>
     <p style="font-style: italic">
       <span *ngIf="game.wordSynonyms.length>0">Synonyms: </span>
-      <span *ngFor="let synonym of game.wordSynonyms">{{synonym+ ', '}}</span>
+      <span *ngFor="let synonym of game.wordSynonyms; let i = index">{{synonym}}<span *ngIf="i<game.wordSynonyms.length-1">, </span></span>
     </p>
   </div>
   <div>

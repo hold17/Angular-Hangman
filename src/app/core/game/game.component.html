@@ -10,7 +10,9 @@
       <span class="word" *ngIf="game.hasGameBegun">{{game.visibleWord}}</span>
       <span class="word" *ngIf="game.gameHasBeenWon || game.gameHasBeenLost">{{game.finalGuessWord}}</span>
       <span class="word-description">{{game.wordExampleAfter}}</span></p>
+
     <p class="word-description" style="font-style: italic" *ngIf="game.wordDefinition?.length">{{'Definition: '+game.wordDefinition}}</p>
+
     <p style="font-style: italic">
       <span *ngIf="game.wordSynonyms.length>0">Synonyms: </span>
       <span *ngFor="let synonym of game.wordSynonyms; let i = index">{{synonym}}<span *ngIf="i<game.wordSynonyms.length-1">, </span></span>

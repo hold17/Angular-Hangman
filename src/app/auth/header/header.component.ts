@@ -1,12 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
-import {TimerObservable} from 'rxjs/observable/TimerObservable';
 import {HttpErrorResponse} from '@angular/common/http';
 import {AuthService} from '../auth.service';
 import {Location} from '@angular/common';
-import {Observable} from 'rxjs/Observable';
-import {Subscription} from 'rxjs/Subscription';
+import {Observable, Subscription} from 'rxjs';
+import {timer} from 'rxjs/internal/observable/timer';
 
 @Component({
   selector: 'app-header',
@@ -26,18 +25,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
       observer.complete();
     });
     // Når man har været på siden i et stykke tid, her vil den automatisk vise en modal, som logger dig ud ved klik.
-    this.tokenSubscription = TimerObservable.create(9000, 10000).subscribe(() => {
-        const token = localStorage.getItem('token');
-        if (token !== null) {
-          this.auth.validate(token).subscribe(() => {}, (error: HttpErrorResponse) => {
-            console.log(error);
-            if (error.status === 401 && this.auth.loggedIn) {
-              this.showModal();
-            }
-          });
+    this.tokenSubscription = timer(9000, 10000)
+      .subscribe(() => {
+          const token = localStorage.getItem('token');
+          if (token !== null) {
+            this.auth.validate(token).subscribe(() => {}, (error: HttpErrorResponse) => {
+              console.log(error);
+              if (error.status === 401 && this.auth.loggedIn) {
+                this.showModal();
+              }
+            });
+          }
         }
-      }
-    );
+      );
   }
 
   logout() {

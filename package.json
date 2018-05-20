@@ -57,7 +57,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~10.1.2",
     "codelyzer": "~4.3.0",
-    "electron": "2.0.1",
+    "electron": "2.0.0",
     "electron-builder": "20.13.4",
     "electron-packager": "12.1.0",
     "gulp": "3.9.1",

@@ -55,7 +55,7 @@ export class GameComponent implements OnInit {
   newGame() {
     this.loading = true;
     this.serverService.getGame().subscribe(
-      response => {
+      (response: GameModel) => {
         this.loading = false;
         this.game = response;
         this.toastr.success('Previous game loaded.');
@@ -92,7 +92,7 @@ export class GameComponent implements OnInit {
   onStartGameClicked() {
     this.loading = true;
     this.serverService.startGame().subscribe(
-      response => {
+      (response: GameModel) => {
         this.game = response;
         this.gameStatus = 'You can start guessing the new game now!';
         this.greenText = '';
@@ -118,7 +118,7 @@ export class GameComponent implements OnInit {
   }
   onLetterClick(letter: string) {
     this.game.usedLetters.push(letter);
-    this.serverService.guessLetter(letter).subscribe(res => {
+    this.serverService.guessLetter(letter).subscribe((res: GameModel) => {
       this.game.visibleWord = res.visibleWord;
       this.game.gameHasBeenLost = res.gameHasBeenLost;
       this.game.gameHasBeenWon = res.gameHasBeenWon;

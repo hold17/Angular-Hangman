@@ -1,9 +1,10 @@
-import {Observable} from 'rxjs/Observable';
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
-import 'rxjs/add/operator/map';
+
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
-import 'rxjs/add/observable/interval';
+
+import {map} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 
 @Injectable()
 export class AuthService {
@@ -14,14 +15,14 @@ export class AuthService {
     // Kald der skal ske når man kommer in på siden, her skal den logge dig ud automatisk, hvis din session er udløbet
     const token = localStorage.getItem('token');
     if ( token !== null) {
-    this.validate(token).subscribe(() => {}, (error: HttpErrorResponse) => {
-      console.log(error);
-      if (error.status === 401) {
-        this.loggedIn = false;
-        this.logoutRemoveToken();
-        this.router.navigate(['/login']);
-      }
-    });
+      this.validate(token).subscribe(() => {}, (error: HttpErrorResponse) => {
+        console.log(error);
+        if (error.status === 401) {
+          this.loggedIn = false;
+          this.logoutRemoveToken();
+          this.router.navigate(['/login']);
+        }
+      });
     }
   }
   isAuthenticated() {
@@ -41,10 +42,11 @@ export class AuthService {
         headers: new HttpHeaders()
           .set('Content-Type', 'application/x-www-form-urlencoded')
       }
-    ).map((promise: Promise<JSON>) => {
-      localStorage.setItem('token', JSON.stringify(promise));
-
-    });
+    ).pipe(
+      map((promise: Promise<JSON>) => {
+        localStorage.setItem('token', JSON.stringify(promise));
+      })
+    );
   }
   validate(stringtoken: string): Observable <any> {
     if (stringtoken.length < 1 || stringtoken === null) { return; }
@@ -61,8 +63,7 @@ export class AuthService {
       {
         headers: new HttpHeaders().set('Authorization', 'Bearer ' + token)
       }
-    ).map(() => {
-    });
+    );
   }
   logoutRemoveToken() {
     localStorage.removeItem('token');

@@ -7,7 +7,6 @@ import {Component} from '@angular/core';
     <app-header></app-header>
     <div class="container" align="center">
       <router-outlet></router-outlet>
-    </div>
-  `
+    </div>    `
 })
 export class AppComponent {}

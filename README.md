@@ -1,6 +1,7 @@
 # Hangman
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.3.
+Code has been updated to comply with new Angular 6 and Rxjs standards. 
 
 ## ElectronApp
 

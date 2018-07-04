@@ -7,11 +7,9 @@ Code has been updated to comply with new Angular 6 and Rxjs standards.
 The project has been seperated in to the following modules, which all have their own responsibilities. (there are more smaller submodules which are not shown below).
 ### AppModule
 
-
 ![AppModule](https://raw.githubusercontent.com/hold17/Angular-Hangman/master/README_pics/AppModule.png)
 
 ### AuthModule
-![authModule] (https://github.com/hold17/Angular-Hangman/tree/master/README_pics/AuthModule.png)
 
 ![AuthModule](https://raw.githubusercontent.com/hold17/Angular-Hangman/master/README_pics/AuthModule.png)
 

@@ -6,11 +6,11 @@ Code has been updated to comply with new Angular 6 and Rxjs standards.
 ## Project structure
 The project has been seperated in to the following modules, which all have their own responsibilities. (there are more smaller submodules which are not shown below).
 ### AppModule
-[appModule]: https://github.com/hold17/Angular-Hangman/tree/master/README_pics/AppModule.png "Logo Title Text 2"
+![appModule] (https://github.com/hold17/Angular-Hangman/tree/master/README_pics/AppModule.png)
 ### AuthModule
-[authModule]: https://github.com/hold17/Angular-Hangman/tree/master/README_pics/AuthModule.png "Logo Title Text 2"
+![authModule]: (https://github.com/hold17/Angular-Hangman/tree/master/README_pics/AuthModule.png)
 ### CoreModule
-[coreModule]: https://github.com/hold17/Angular-Hangman/tree/master/README_pics/AuthModule.png "Logo Title Text 2"
+![coreModule]: (https://github.com/hold17/Angular-Hangman/tree/master/README_pics/CoreModule.png)
 
 ## ElectronApp
 
@@ -22,3 +22,4 @@ Check out the deployment of this app  [Localghost](https://localghost.dk).
 
 ## Check out the server repo
 [RestService](https://github.com/hold17/dist-hangman)
+  

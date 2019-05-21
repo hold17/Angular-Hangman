@@ -17,7 +17,7 @@ export class AuthService {
     if ( token !== null) {
       this.validate(token).subscribe(() => {}, (error: HttpErrorResponse) => {
         console.log(error);
-        if (error.status === 401) {
+        if (error.status >= 300) {
           this.loggedIn = false;
           this.logoutRemoveToken();
           this.router.navigate(['/login']);
